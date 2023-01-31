@@ -1,6 +1,6 @@
 # Cleaning notes
 
-## 01.29
+## 01.30
 
 *1. Remove strike-throughs:*
 - ID 2: family dropped.
@@ -22,7 +22,14 @@
 - All Communication questions which have multiple choices require at least 3 responses. So I count the number of letters in the open responses, and if it is smaller than 3 (and when the answer to the main question is 1/yes), I reassign 2/sometimes to replace the 1/yes in the main question. 
 - For pers2, at least 4 responses are needed. So I count the number of letters in the open responses of pers2, and if it is smaller than 4 (and when the answer to the main question is 1/yes), I reassign 2/sometimes to replace the 1/yes in the main question.
 
+*4. Fix 999s in interview_type based on interview_date*
+- ID 30, interview_date changed to 2 because only 3 is available for that survey_id 
+- ID 41, 47, 38, 48, 49, 51, 33, 59, 28, interview_date changed to 1 based on earliest date in each survey_id
+- ID 51 and 220 (survey_id 34206001) have the exact same date, but not identical date in the other variables. One should be age 22m and the other 24m. The baseline date should be incorrect but not sure what the replacement date value should be. The 999 in interview_type is currently set to be 1 because 22m < 24m.
+
 *remaining checks:*
 - Check conditional sentences in the form and if that matches up with the data
 - Check if age_form matches with the actual date sequence
 - Check survey_id (ask Aaron)
+
+

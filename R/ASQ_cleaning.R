@@ -13,15 +13,10 @@ clean_ASQ <- function(ASQ_raw){
       interview_date = ifelse(interview_date == "9/2/1015", "9/2/2015", interview_date),
       interview_date = openxlsx::convertToDate(interview_date)) |> 
     # clean interview dates before removing 999s
-    # ASQ_cleaned <- ASQ_cleaned |> 
-    #   group_by(survey_id) |> 
-    #   mutate(interview_type = ifelse(!interview_type %in% 999,
-    #                                  interview_type,
-    #                                  
-    #                                  )
-    #          )
-    #   
-    # identify NA
+    mutate(interview_type = case_when(
+      id == 30 ~ 2, 
+      id %in% c(41, 47, 38, 48, 49, 51, 33, 59, 28) ~ 1
+    )) |> 
     identify_NA() 
 
   # small fixes
