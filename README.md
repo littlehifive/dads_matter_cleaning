@@ -27,9 +27,29 @@
 - ID 41, 47, 38, 48, 49, 51, 33, 59, 28, interview_date changed to 1 based on earliest date in each survey_id
 - ID 51 and 220 (survey_id 34206001) have the exact same date, but not identical date in the other variables. One should be age 22m and the other 24m. The baseline date should be incorrect but not sure what the replacement date value should be. The 999 in interview_type is currently set to be 1 because 22m < 24m.
 
+*5. Check conditional sentences in the form and if that matches up with the data*
+
+- There are conditional statements after certain sections in the ASQ form such as if item B is yes then mark item A as yes, because the behavior shown in A may be considered the same or nested in that shown in B. I apply those checks to the data cleaning. Specifically:
+
+  - fm month 2: if fm5 is yes then mark fm1 as yes
+  - gm month 8: if gm5 is yes/sometimes then mark gm1 as yes
+  - fm month 8: if fm6 is yes/sometimes then mark fm2 as yes
+  - fm month 9: if fm5 is yes/sometimes then mark fm2 as yes
+  - fm month 10: if fm5 is yes/sometimes then mark fm2 as yes
+  - fm month 12: if fm4 is yes/sometimes then mark fm2 as yes
+  - ps month 12: if ps5 is yes/sometimes then mark ps4 as yes
+  - ps month 14: if ps2 is yes/sometimes then mark ps1 as yes
+  - ps month 16: if ps5 is yes then mark ps1 as yes
+  - ps month 18: if ps6 is yes/sometimes then mark ps3 as yes
+  - gm month 22: if gm6 is yes/sometimes then mark gm1 as yes
+  - gm month 24: if gm6 is yes/sometimes then mark gm2 as yes
+  - gm month 27: if gm6 is yes/sometimes then mark gm1 as yes
+  - gm month 30: if gm5 is yes/sometimes then mark gm2 as yes
+
+*6. change 1/2/3 from numeric responses to text labels*
+- In the domain specific variables, 1/2/3 are actually labelled as yes/sometimes/no yet since the variables are technically not on a ratio scale, but an ordinal one
+- For analysis purposes (e.g., if it makes sense to add up these numbers), we can recode them so that yes reflects a larger number.
+- In the general observations, 1/2 are coded as yes/no.
+
 *remaining checks:*
-- Check conditional sentences in the form and if that matches up with the data
-- Check if age_form matches with the actual date sequence
 - Check survey_id (ask Aaron)
-
-
