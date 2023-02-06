@@ -1,13 +1,15 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-ASQ_cleaned|stem|794eccb181b64d97|1453361685fb4e01|e217e19a4e665801|1425940426||t19388.6599031644s|f2f447c033e2f66c|25302|rds|local|vector|||0.137||
-ASQ_raw|stem|5a4a62f67757301e|94ac684cd39c2272|2fcd732c804c0aee|-2091189797||t19388.205178151s|459b245ffef3dea8|27358|rds|local|vector|||0.102||
-ASQ_raw_file_path|stem|ed917589e1687d74|57757747bc984d54|106b727ca38470bb|-24967218|/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project/Data cleaning/raw/ASQ data_raw.xlsx|t19388.2010900825s|dbb42e6bb557d634|375998|file|local|vector|||0.583||
+ASQ_cleaned|stem|152b7a55f7f53d76|e4da6086afa2919f|c7bc28bf22b9922f|1425940426||t19394.1364603913s|bd4c325648e9831d|37386|rds|local|vector|||0.165||
+ASQ_norm|stem|d5e9613bd7b96867|c94ff5c1eb2d3e65|120dde146dbdbdf0|624182101||t19394.0841153711s|01d717670daa253d|1008|rds|local|vector|||0.016||
+ASQ_raw|stem|5a4a62f67757301e|94ac684cd39c2272|120dde146dbdbdf0|-2091189797||t19394.0841151448s|459b245ffef3dea8|27358|rds|local|vector|||0.102||
+ASQ_raw_file_path|stem|2358f0a912c6341a|57757747bc984d54|106b727ca38470bb|-24967218|/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project/Data cleaning/raw/ASQ data_raw.xlsx|t19394.0838596567s|880092e65a3f804d|380879|file|local|vector|||0.56||
 box_path|object|5436679fed15322e|||||||||||||||
-clean_ASQ|function|9e6bab68a5bd8c68|||||||||||||||
+clean_ASQ|function|97901b8bafdebd63|||||||||||||||
 clean_column|function|a9df6fd9c02074f8|||||||||||||||
-export_ASQ_cleaned|stem|35025c38298eb079|8f206316f287320b|ac7a16df0c2be8f6|2065537901||t19388.659905371s|66f45ae53f453e76|207249|rds|local|vector|||0.115||
+export_ASQ_cleaned|stem|e3cf06a9ce266c40|8f206316f287320b|0ef9135cef346175|2065537901||t19394.1364625147s|6f012dd2a4bc6cb7|232330|rds|local|vector|||0.108||
 export_csv|function|0c571556980a23c8|||||||||||||||
 export_xlsx|function|6facc8ed78945f75|||||||||||||||
 get_nchar|function|4d3b6a1e0a2e5f84|||||||||||||||
 identify_NA|function|2c0cfeaf25170681|||||||||||||||
 load_xlsx|function|4ed8966ea1835a6c|||||||||||||||
+zscore|function|5bb80aab6db73857|||||||||||||||

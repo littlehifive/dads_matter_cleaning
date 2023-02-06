@@ -37,4 +37,10 @@ clean_column <- function(data,
                                     {{ column }})))
 }
 
+# calculate z score
+zscore <- function(x, norm_m, norm_sd){
+  zscore <- (x - norm_m) / norm_sd
+}
+
+
   

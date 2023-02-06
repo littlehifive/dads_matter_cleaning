@@ -31,7 +31,8 @@ box_path <- "/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project
 list(
   tar_target(ASQ_raw_file_path, file.path(box_path, "raw/ASQ data_raw.xlsx"), format = "file"),
   tar_target(ASQ_raw, load_xlsx(ASQ_raw_file_path, 1)),
-  tar_target(ASQ_cleaned, clean_ASQ(ASQ_raw)),
+  tar_target(ASQ_norm, load_xlsx(ASQ_raw_file_path, 2)), 
+  tar_target(ASQ_cleaned, clean_ASQ(ASQ_raw, ASQ_norm)),
   tar_target(export_ASQ_cleaned, export_xlsx(ASQ_cleaned, 
                                             file.path(box_path, "cleaned/ASQ_cleaned.xlsx")))
   
