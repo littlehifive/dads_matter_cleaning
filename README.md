@@ -68,3 +68,43 @@
 - Create sum scores for each developmental area (Cases with at least one NA are omitted in creating the composite score because in the ASQ technical report, they also excluded cases with at least one NA in their analysis.)
 - Extract the normative means and SDs from Table 18 in the ASQ technical report
 - Create z-scores for each developmental area score based on the normative curve for that developmental stage
+
+## 02.14
+
+*1. Check ASQ survey_id*
+
+- The following IDs in ASQ cannot be found in the Mother ID list. I searched for the first 4 digits and the ones with a question mark do not even have a likely match in the Mother ID list.
+
+  - 11508401 may be 11508901 because there is only one value starting with 11508
+  - 11714801 (11717201, 11717401, 11717501?)
+  - 11717001 ?
+  - 15413801 ?
+  - 18914801 ?
+  - 23103401 ?
+  - 33106101 ?
+  - 33309901 (33300901?)
+  - 35609701 (35609401?)
+  - 35618901 (35613501?)
+  - 36616601 (36619301?)
+  - 37111901 (37119901?)
+  - 50810801 (50810701, 50800901?)
+  - 53619801 ?
+  - 53620101 ?
+  - 54913501 (54913001, 54913601?)
+  - 55212601 ?
+
+- The following ASQ ids have mismatches with the Mother ID list in terms of the interview_type.
+
+- For 34206001, there are two 2015-06-14s in the ASQ dataset, so I guess if interview_type 999 is set to 1, then the 2015-06-14 for interview_type == 2 should be 2015-10-11. 
+
+- None of the other interview_type that have been changed to 1 has this issue. 32103301 32104501 32402901 33705501 34205601 34206001 34401401 42006301 42101001
+
+
+| survey_id | interview_date | interview_type | interview_type_master |
+|----------:|:--------------:|---------------:|----------------------:|
+|  10800201 |   2014-12-05   |              2 |                     1 |
+|  20900401 |   2015-05-06   |              1 |                     2 |
+|  21300601 |   2015-01-27   |              2 |                     1 |
+|  32403901 |   2016-04-29   |              1 |                     3 |
+|  34206001 |   2015-06-14   |              2 |                     1 |
+|  35105801 |   2015-10-11   |              2 |                     1 |

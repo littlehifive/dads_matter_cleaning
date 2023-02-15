@@ -58,3 +58,49 @@ ASQ_cleaned |> select(age_form, o7, o7_explain) |> filter(o7 == 3)
 ASQ_cleaned |> select(age_form, o8, o8_explain) |> filter(o8 == 3)
 ASQ_cleaned |> select(age_form, o9, o9_explain) |> filter(o9 == 3)
 ASQ_cleaned |> select(age_form, o10, o10_explain) |> filter(o10 == 3)
+
+# check ASQ IDs
+ASQ_id <- sort(unique(ASQ_cleaned$survey_id))
+master_id <- sort(unique(ID_list$client_id))
+ASQ_id[!ASQ_id %in% master_id]
+# 11508401 may be 11508901 because there is only one value starting with 11508
+# 11714801 (11717201, 11717401, 11717501?)
+# 11717001 ?
+# 15413801 ?
+# 18914801 ?
+# 23103401 ?
+# 33106101 ?
+# 33309901 (33300901?)
+# 35609701 (35609401?)
+# 35618901 (35613501?)
+# 36616601 (36619301?)
+# 37111901 (37119901?)
+# 50810801 (50810701, 50800901?)
+# 53619801 ?
+# 53620101 ?
+# 54913501 (54913001, 54913601?)
+# 55212601 ?
+
+ASQ_check <- ASQ_cleaned |> 
+  select(survey_id, interview_date, interview_type) |> 
+  left_join(ID_list |> select(client_id, date_of_interview, interview_type) |>
+              rename(interview_type_master = interview_type) |> 
+              mutate(date_of_interview = lubridate::mdy(date_of_interview)), 
+            by = c("survey_id" = "client_id", "interview_date" = "date_of_interview"))
+
+ASQ_check |> filter(interview_type != interview_type_master)
+
+# survey_id interview_date interview_typ…¹ inter…²
+# 1  10800201 2014-12-05                   2       1
+# 2  20900401 2015-05-06                   1       2
+# 3  21300601 2015-01-27                   2       1
+# 4  32403901 2016-04-29                   1       3
+# 5  34206001 2015-06-14                   2       1
+# 6  35105801 2015-10-11                   2       1
+
+# For 34206001, there are two 2015-06-14s in the ASQ dataset, so I guess if interview_type 999
+# is set to 1, then the 2015-06-14 for interview_type == 2 should be 2015-10-11. 
+
+# None of the other interview_type that have been changed to 1 has this issue.
+# [1] 32103301 32104501 32402901 33705501 34205601
+# [6] 34206001 34401401 42006301 42101001
