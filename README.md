@@ -108,3 +108,11 @@
 |  32403901 |   2016-04-29   |              1 |                     3 |
 |  34206001 |   2015-06-14   |              2 |                     1 |
 |  35105801 |   2015-10-11   |              2 |                     1 |
+
+## 02.21
+
+- For 34206001, there are two 2015-06-14s in the ASQ dataset, the date 2015-06-14 for interview_type == 2 is changed tod 2015-10-11. 
+
+- Replace interview_type with mismatches from the master ID list using values from the ID list
+
+- Manually fix several ID mismatches according to Aaron's suggestions

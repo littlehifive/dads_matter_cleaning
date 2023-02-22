@@ -103,6 +103,35 @@ clean_ASQ <- function(ASQ_raw, ASQ_norm){
            pers_overall_z = zscore(pers_overall, pers_overall_m, pers_overall_sd)) |> 
     select(-c(c_overall_m:pers_overall_sd))
   
+  # clean ASQ survey IDs based on master ID list
+  ASQ_cleaned <- ASQ_cleaned |> 
+    mutate(
+      survey_id = case_when(
+        survey_id == 11508401 ~ 11508901,
+        survey_id == 11714801 ~ 11717401,
+        survey_id == 23103401 ~ 21203501,
+        survey_id == 33309901 ~ 33300901,
+        survey_id == 50810801 ~ 50810701,
+        survey_id == 53619801 ~ 55419801,
+        survey_id == 53620101 ~ 54820101,
+        survey_id == 54913501 ~ 54913601,
+        TRUE ~ survey_id
+      )
+    ) |> 
+    mutate(interview_date = if_else(survey_id == 34206001 & interview_type == 2,
+                                   lubridate::ymd("2015-10-11"),
+                                   interview_date)) |> 
+    mutate(interview_type = case_when(
+      survey_id == 10800201 & interview_date == "2014-12-05" ~ 1,
+      survey_id == 20900401 & interview_date == "2015-05-06" ~ 2,
+      survey_id == 21300601 & interview_date == "2015-01-27" ~ 1,
+      survey_id == 32403901 & interview_date == "2016-04-29" ~ 3,
+      survey_id == 34206001 & interview_date == "2015-06-14" ~ 1,
+      survey_id == 35105801 & interview_date == "2015-10-11" ~ 1,
+      TRUE ~ interview_type
+    ))
+  
+  
   # order by survey id and interview type
   ASQ_cleaned <- ASQ_cleaned |> 
     arrange(survey_id, interview_type)
