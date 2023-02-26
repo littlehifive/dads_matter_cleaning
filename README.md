@@ -116,3 +116,9 @@
 - Replace interview_type with mismatches from the master ID list using values from the ID list
 
 - Manually fix several ID mismatches according to Aaron's suggestions
+
+## 02.25
+
+- Fix all ID mismatches (see word document commented by Aaron)
+
+- Remove 6 rows that are very likely unconsented cases (which do not match with the master dataset)
