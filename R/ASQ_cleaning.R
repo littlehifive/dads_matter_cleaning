@@ -115,6 +115,7 @@ clean_ASQ <- function(ASQ_raw, ASQ_norm){
         survey_id == 53619801 ~ 55419801,
         survey_id == 53620101 ~ 54820101,
         survey_id == 54913501 ~ 54913601,
+        survey_id == 15413801 ~ 55413801,
         TRUE ~ survey_id
       )
     ) |> 
@@ -131,6 +132,10 @@ clean_ASQ <- function(ASQ_raw, ASQ_norm){
       TRUE ~ interview_type
     ))
   
+  # remove rows that are likely non-consented cases
+  ASQ_cleaned <- ASQ_cleaned |> 
+    filter(!survey_id %in% c(11717001, 18914801, 35618901, 36616601, 37111901, 55212601)) |> 
+    mutate_at(vars(id, interview_type, survey_id), as.character)
   
   # order by survey id and interview type
   ASQ_cleaned <- ASQ_cleaned |> 

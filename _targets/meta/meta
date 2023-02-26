@@ -1,12 +1,12 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-ASQ_cleaned|stem|880209a9f94bc53d|e4da6086afa2919f|22ed8deb5d554882|1425940426||t19410.1790302242s|8014990d5ca84c1d|37363|rds|local|vector|||0.185||
+ASQ_cleaned|stem|23084f8fd382a9a1|e4da6086afa2919f|943e09e37a6883f0|1425940426||t19414.1302232706s|6c62bc4930f6247a|37152|rds|local|vector|||0.371||
 ASQ_norm|stem|d5e9613bd7b96867|c94ff5c1eb2d3e65|120dde146dbdbdf0|624182101||t19394.0841153711s|01d717670daa253d|1008|rds|local|vector|||0.016||
 ASQ_raw|stem|5a4a62f67757301e|94ac684cd39c2272|120dde146dbdbdf0|-2091189797||t19394.0841151448s|459b245ffef3dea8|27358|rds|local|vector|||0.102||
 ASQ_raw_file_path|stem|2358f0a912c6341a|57757747bc984d54|106b727ca38470bb|-24967218|/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project/Data cleaning/raw/ASQ data_raw.xlsx|t19394.0838596567s|880092e65a3f804d|380879|file|local|vector|||0.56||
 box_path|object|5436679fed15322e|||||||||||||||
-clean_ASQ|function|ae30fa0f46ec3dfc|||||||||||||||
+clean_ASQ|function|87f9513177d69a1e|||||||||||||||
 clean_column|function|a9df6fd9c02074f8|||||||||||||||
-export_ASQ_cleaned|stem|5243699691fe3bcb|8f206316f287320b|5cf2982bfacfc434|2065537901||t19410.1790331993s|b7ef2626c1d84567|232381|rds|local|vector|||0.179||
+export_ASQ_cleaned|stem|bf941ac09f2b3a5f|8f206316f287320b|7cb893a3a588196b|2065537901||t19414.130226231s|fa8d3d7c61b172e4|234233|rds|local|vector|||0.177||
 export_csv|function|0c571556980a23c8|||||||||||||||
 export_xlsx|function|6facc8ed78945f75|||||||||||||||
 get_nchar|function|4d3b6a1e0a2e5f84|||||||||||||||
