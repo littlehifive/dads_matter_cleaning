@@ -1,4 +1,4 @@
-# Cleaning notes
+# ASQ cleaning notes
 
 ## 01.30
 
@@ -122,3 +122,75 @@
 - Fix all ID mismatches (see word document commented by Aaron)
 
 - Remove 6 rows that are very likely unconsented cases (which do not match with the master dataset)
+
+# LENA cleaning Notes
+
+## 02.28
+
+- The following ids are in LENA but not in the master ID list:
+  - 112415 (?)
+  - 11513901 (51513901?) 
+  - 16201 (?)
+  - 18914801 (also an unclear case in ASQ)
+  - 33202201 (33202101 / 33202301?)
+  - 33302002 (33302001?)
+  - 36107101 (31607101?)
+  - 36612701 (36612201? 36612901? 31002701?)
+  - 55212601 (also an unclear case in ASQ)
+  - 7000101 (?)
+  - test
+  - Sandra
+
+- The following cases in LENA have different birth dates from the master ID list:
+ 	`id`	`birthdate_lena`	`birthdate_master` 
+1	53404401	4/12/2013	3/12/2013
+2	33317701	10/25/2014	5/16/2014
+3	41116501	10/14/2014	10/13/2014
+4	35609401	3/11/2015	11/24/2014
+5	33420701	11/1/2015	1/1/2015
+6	33601301	3/26/2015	3/16/2015
+7	34205601	5/18/2015	4/7/2015
+8	56017101	5/17/2015	5/7/2015
+9	52905301	6/14/2015	6/4/2015
+10	41005401	8/22/2015	7/21/2015
+11	53103201	7/19/2015	7/29/2015
+12	36612201	7/2/2015	9/2/2015
+13	33509901	11/2/2015	11/30/2015
+14	33309501	3/31/2016	4/2/2016
+15	51018701	11/15/2016	9/2/2016
+16	112415	11/24/2015	NA
+17	11513901	8/19/2015	NA
+18	16201	12/30/2014	NA
+19	18914801	11/12/2015	NA
+20	33202201	12/27/2014	NA
+21	33302002	4/2/2013	NA
+22	36107101	7/15/2015	NA
+23	36612701	11/10/2015	NA
+24	55212601	4/4/2015	NA
+25	NA	10/15/2015	NA
+26	NA	4/13/2016	NA
+27	7000101	9/1/2015	NA
+
+## 03.05
+
+*1. Clean LENA log:*
+
+- The following IDs are in LENA log but not the ID list: 
+  - 53906401 (54616401?)
+  - 11513901 (51513901?)
+  - 32011901 (22111901?)
+  - 50810801 (changed to 50810701 based on ASQ notes)
+  - 18914801 (non-consented case)
+  - 56416401 (54616401?)
+  - 22110101 (10201101?)
+  
+- Removed rows that should be dropped
+- Transform numeric values to their corresponding character values
+- Recode values like "1, 2", "1,2", "1,2,3", "1,3" into the actual literal meanings
+- Pivot this dataset to long format and match its datetime with the datetime in LENA and ADEX datasets
+
+*2. Matching LENA log with LENA dataset:*
+
+- There is a huge issue of non-matching between survey & dates in LENA data and those in the master ID list: only 98 rows match, 531 rows do not match. Many dates in the LENA data are completely off (maybe a systematic error in the recording device).
+
+- I have written codes to filter the LENA dataset after joining it with the LENA log data (which is joined with the ID master to get the recording dates). But this would only take effect if we get the dates correct.

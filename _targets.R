@@ -32,11 +32,20 @@ list(
   tar_target(ASQ_raw_file_path, file.path(box_path, "raw/ASQ data_raw.xlsx"), format = "file"),
   tar_target(ASQ_raw, load_xlsx(ASQ_raw_file_path, 1)),
   tar_target(ASQ_norm, load_xlsx(ASQ_raw_file_path, 2)), 
+  tar_target(LENA_raw, readr::read_csv(file.path(box_path, "raw/lena_raw.csv"), show_col_types = FALSE)),
+  tar_target(LENA_log_raw, readr::read_csv(file.path(box_path, "raw/lena_log_raw.csv"), show_col_types = FALSE)),
+  tar_target(ADEX_raw, readr::read_csv(file.path(box_path, "raw/adex_raw.csv"), show_col_types = FALSE)),
   tar_target(ID_list, 
-             readr::read_csv(file.path(box_path, "raw/DadsMatter_MotherIDs.csv")) |> 
+             readr::read_csv(file.path(box_path, "raw/DadsMatter_MotherIDs.csv"), show_col_types = FALSE) |> 
                janitor::clean_names()),
   tar_target(ASQ_cleaned, clean_ASQ(ASQ_raw, ASQ_norm)),
+  tar_target(LENA_log_cleaned, clean_LENA_log(LENA_log_raw)),
+  tar_target(LENA_log_cleaned_long, clean_LENA_log_long(LENA_log_cleaned, ID_list)),
   tar_target(export_ASQ_cleaned, export_xlsx(ASQ_cleaned, 
-                                            file.path(box_path, "cleaned/ASQ_cleaned.xlsx")))
+                                            file.path(box_path, "cleaned/ASQ_cleaned.xlsx"))),
+  tar_target(export_LENA_log_cleaned, export_xlsx(LENA_log_cleaned, 
+                                             file.path(box_path, "cleaned/LENA_log_cleaned.xlsx"))),
+  tar_target(export_LENA_log_long_cleaned, export_xlsx(LENA_log_cleaned_long, 
+                                                  file.path(box_path, "cleaned/LENA_log_cleaned_long.xlsx")))
   
 )

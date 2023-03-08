@@ -104,3 +104,36 @@ ASQ_check |> filter(interview_type != interview_type_master)
 # None of the other interview_type that have been changed to 1 has this issue.
 # [1] 32103301 32104501 32402901 33705501 34205601
 # [6] 34206001 34401401 42006301 42101001
+
+
+# LENA log checks
+x <- unique(LENA_log_cleaned$survey_id)
+y <- unique(ID_list$client_id)
+x[!x%in%y]
+
+unique(LENA_log_cleaned$status)
+class(LENA_log_cleaned$child_dob)
+unique(LENA_log_cleaned$lena_id) # not sure what this sis
+table(LENA_log_cleaned$interview_type)
+table(LENA_log_cleaned$form)
+table(LENA_log_cleaned$gender)
+table(LENA_log_cleaned$return)
+
+sapply(LENA_log_cleaned |> select(w5:w22), table)
+sapply(LENA_log_cleaned |> select(p5:p22), table)
+sapply(LENA_log_cleaned |> select(e5:e22), table)
+
+# issues with non-matching dates between master id list and lena data
+
+x <- LENA_cleaned |> select(survey_id, date_of_interview) |> distinct()
+y <- ID_list |> select(client_id, date_of_interview) |> rename(survey_id = client_id) |> 
+  mutate(date_of_interview = mdy(date_of_interview)) |> distinct()
+
+same_rows <- semi_join(x, y, by = c("survey_id", "date_of_interview"))
+diff_rows <- anti_join(x, y, by = c("survey_id", "date_of_interview"))
+
+# only 98 rows match, 531 rows do not match
+
+# check interview place
+sapply(LENA_log_cleaned |> select(w5:w22), table)
+sapply(LENA_log_cleaned |> select(p5:p22), table)
