@@ -194,3 +194,38 @@
 - There is a huge issue of non-matching between survey & dates in LENA data and those in the master ID list: only 98 rows match, 531 rows do not match. Many dates in the LENA data are completely off (maybe a systematic error in the recording device).
 
 - I have written codes to filter the LENA dataset after joining it with the LENA log data (which is joined with the ID master to get the recording dates). But this would only take effect if we get the dates correct.
+
+## 03.25
+
+- Question: How should we deal with those with multiple days of recordings in LENA pro but only one log survey indicating when to delete? Should I delete the same time period in all consecutive dates?
+
+- Assuming the dates in the LENA dataset are completely unreliable and should not be used, we need to figure out what the most possible interview type is for each particular date. Therefore, a given id assigned a particular interview type can be associated with multiple consecutive dates (recorded by LENA pro). Essentially, I am assigning a new interview_type to the LENA dates from the ID list where the date gap is below 30 days.
+
+- The following are the IDs that do not have a match between LENA data and the LENA log data (after merging it with the ID list), for various reasons:
+
+| ID        | Status                                                              | Gap                 |
+|-----------|----------------------------------------------------------------------|---------------------|
+| 22110201  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 36614401  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 55314701  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 11717501  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 36713401  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 32012001  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 36811401  | In ID list but not in LENA log (no need to match?)                   |                     |
+| 20914601  | No match within reasonable date_gap                                   | Gap: 241/244 days   |
+| 42007001  | No match within reasonable date_gap                                   | Gap: 48-49 days     |
+| 55312301  | No match within reasonable date_gap                                   | Gap: 366/388 days   |
+| 50004101  | No match within reasonable date_gap                                   | Gap: 230 days       |
+| 31002701  | No match within reasonable date_gap                                   | Gap: 145/148/149 days|
+| 50810901  | No match within reasonable date_gap                                   | Gap: 35/62/63 days  |
+| 36612201  | No match within reasonable date_gap                                   | Gap: 123/124/129 days|
+| 54913601  | No match within reasonable date_gap                                   | Gap: 141/142 days   |
+| 112415    | Not in ID list                                                      |                     |
+| 33202201  | Not in ID list                                                      |                     |
+| 36612701  | Not in ID list                                                      |                     |
+| 11513901  | Not in ID list                                                      |                     |
+| 33302002  | Not in ID list                                                      |                     |
+| 36107101  | Not in ID list                                                      |                     |
+| 16201     | Not in ID list                                                      |                     |
+| 7000101   | Not in ID list                                                      |                     |
+

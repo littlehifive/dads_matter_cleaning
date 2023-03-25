@@ -11,6 +11,20 @@ clean_LENA_log <- function(LENA_log_raw){
     identify_NA() |> 
     select(-c(status))
   
+  # clean LENA log ids (pending further checks from Aaron)
+  LENA_log_cleaned <- LENA_log_cleaned |> 
+    mutate(
+      survey_id = case_when(
+        survey_id == 53906401 ~ 53906901,
+        survey_id == 11513901 ~ 51513901,
+        survey_id == 32011901 ~ 32011701,
+        survey_id == 50810801 ~ 50810701,
+        TRUE ~ survey_id))
+  
+  # remove rows that are likely non-consented cases
+  LENA_log_cleaned <- LENA_log_cleaned |> 
+    filter(!survey_id %in% c(18914801, 55212601, 56416401, 22110101))
+  
   LENA_log_cleaned <- LENA_log_cleaned |> 
     mutate(child_bd = lubridate::mdy(child_bd)) |> 
     mutate(interview_type = as.character(interview_type)) |> 
@@ -106,12 +120,14 @@ clean_LENA_log_long <- function(LENA_log_cleaned, ID_list){
 
 clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
   
+  # timestamp from LENA log
   LENA_log_cleaned_long_subset <- LENA_log_cleaned_long |> 
     select(survey_id, date_of_interview, timestamp, e) |>
     filter(e == 1) |> 
     mutate(timestamp_end = timestamp + lubridate::hours(1)) |> 
     rename(timestamp_start = timestamp)
   
+  # clean variable names and create dates from timestamp
   LENA_cleaned <- LENA_raw |> 
     janitor::clean_names() |> 
     mutate(date_of_interview = lubridate::date(lubridate::mdy_hm(timestamp)),
@@ -119,10 +135,26 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
     select(-lastname) |> 
     rename(survey_id = firstname)
   
+  # clean LENA ids (pending further checks from Aaron)
+  # LENA_cleaned <- LENA_cleaned |> 
+  #   mutate(
+  #     survey_id = case_when(
+  #       survey_id == 53906401 ~ 53906901,
+  #       survey_id == 11513901 ~ 51513901,
+  #       survey_id == 32011901 ~ 32011701,
+  #       survey_id == 50810801 ~ 50810701,
+  #       TRUE ~ survey_id))
+  
+  # remove rows that are likely non-consented cases
   LENA_cleaned <- LENA_cleaned |> 
-    left_join(LENA_log_cleaned_long_subset,
-              by = c("survey_id", "date_of_interview")) |> 
-    filter(e == 1 & timestamp > timestamp_start & timestamp < timestamp_end)
+    filter(!survey_id %in% c(18914801, 55212601))
+
+  
+  
+  # LENA_cleaned <- LENA_cleaned |> 
+  #   left_join(LENA_log_cleaned_long_subset,
+  #             by = c("survey_id", "date_of_interview")) |> 
+  #   filter(e == 1 & timestamp > timestamp_start & timestamp < timestamp_end)
     
   # issues with non-matching dates between master id list and lena data
   

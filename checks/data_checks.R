@@ -126,14 +126,57 @@ sapply(LENA_log_cleaned |> select(e5:e22), table)
 # issues with non-matching dates between master id list and lena data
 
 x <- LENA_cleaned |> select(survey_id, date_of_interview) |> distinct()
-y <- ID_list |> select(client_id, date_of_interview) |> rename(survey_id = client_id) |> 
-  mutate(date_of_interview = mdy(date_of_interview)) |> distinct()
+y <- LENA_log_cleaned_long |> select(survey_id, date_of_interview) |> distinct()
 
 same_rows <- semi_join(x, y, by = c("survey_id", "date_of_interview"))
 diff_rows <- anti_join(x, y, by = c("survey_id", "date_of_interview"))
+
+
+a <- unique(x$survey_id)
+b <- unique(y$survey_id)
+b[!b %in% a]
+a[!a %in% b]
 
 # only 98 rows match, 531 rows do not match
 
 # check interview place
 sapply(LENA_log_cleaned |> select(w5:w22), table)
 sapply(LENA_log_cleaned |> select(p5:p22), table)
+
+
+# check dates in LENA pro data
+x <- LENA_cleaned |> select(survey_id, date_of_interview) |> distinct() |> 
+  group_by(survey_id) |> arrange(survey_id, date_of_interview)
+
+x <- x |> mutate(interview_sequence = 1:n())
+
+y <- LENA_log_cleaned_long |> select(survey_id, date_of_interview, interview_type) |> 
+  distinct() |> group_by(survey_id) |> arrange(survey_id, date_of_interview)
+
+test <- x |> left_join(y, by = c("survey_id"))
+
+test <- test |> 
+  mutate(date_gap = date_of_interview.x - date_of_interview.y,
+         type_match = interview_sequence == interview_type) |> 
+  mutate(date_gap_under_30 = abs(date_gap) <= 30)
+# test <- test |> filter(abs(date_gap) <= 30)
+
+test <- test |> 
+  mutate(interview_type_new = ifelse(
+    date_gap_under_30 == FALSE,
+    "Not matched",
+    interview_type
+  ))
+
+test_s <- test |> 
+  select(survey_id, date_of_interview.x, date_of_interview.y, date_gap, interview_type_new) |>
+  filter(interview_type_new != "Not matched")
+
+test_s <- test_s |> 
+  arrange(survey_id, date_of_interview.x, interview_type_new) |> 
+  group_by(survey_id, interview_type_new) |> 
+  mutate(same_interview_date_sequence = paste("day", 1:n()))
+
+a <- unique(test_s$survey_id)
+b <- unique(LENA_cleaned$survey_id)
+b[! b%in% a]

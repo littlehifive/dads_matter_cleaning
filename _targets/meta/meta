@@ -7,19 +7,19 @@ ASQ_raw_file_path|stem|2358f0a912c6341a|57757747bc984d54|106b727ca38470bb|-24967
 box_path|object|5436679fed15322e|||||||||||||||
 clean_ASQ|function|87f9513177d69a1e|||||||||||||||
 clean_column|function|a9df6fd9c02074f8|||||||||||||||
-clean_LENA|function|4d895161dd6ef99f|||||||||||||||
-clean_LENA_log|function|d71640f6de0ed703|||||||||||||||
+clean_LENA|function|899d9467384b80cd|||||||||||||||
+clean_LENA_log|function|154f4495fc9b7495|||||||||||||||
 clean_LENA_log_long|function|cb4cf3ec32280b5f|||||||||||||||
 export_ASQ_cleaned|stem|b2b0c9273d8e74e4|8f206316f287320b|7cb893a3a588196b|2065537901||t19421.6599185149s|f30d6fdd4bf45937|234232|rds|local|vector|||0.116||
 export_csv|function|0c571556980a23c8|||||||||||||||
-export_LENA_log_cleaned|stem|0ec8b769b58b46bc|869e72170a5bde83|ad43c35b30a44274|111485514||t19424.1816152028s|85d55e5df7e3f793|182158|rds|local|vector|||0.129||
-export_LENA_log_long_cleaned|stem|ae0d489450f7fdf7|e3fd00c2345bb2f5|d557beeb61983457|579837143||t19424.1816180132s|ff46932aa0d2b8ee|249146|rds|local|vector|||0.163||
+export_LENA_log_cleaned|stem|7d815dc638a5047c|869e72170a5bde83|0445342890d8723b|111485514||t19441.8711612897s|8b2f55c4ada505d6|181919|rds|local|vector|||0.123||
+export_LENA_log_long_cleaned|stem|0983ab9010d3f65c|e3fd00c2345bb2f5|bf28926132314dc6|579837143||t19441.8711641005s|05a819abafd3f9c7|248588|rds|local|vector|||0.157||
 export_xlsx|function|6facc8ed78945f75|||||||||||||||
 get_nchar|function|4d3b6a1e0a2e5f84|||||||||||||||
 ID_list|stem|5b5b1c541ef2b0a6|b6b78338c8addc5f|a758fa586fcb7ff5|233567358||t19421.6599105888s|3ee9b53ce1bbacfa|7172|rds|local|vector|||0.036||
 identify_NA|function|2c0cfeaf25170681|||||||||||||||
-LENA_log_cleaned|stem|9507047b784c2e1c|048245631034cf06|a78e6e7770c94bb9|1806204260||t19424.1816119926s|148d03e22671695c|12116|rds|local|vector|||0.371||
-LENA_log_cleaned_long|stem|c891565850ac023f|994c1bcd47a30321|376b269a9f73a1cd|-918139127||t19424.1816130264s|8025f87d59f9f595|21511|rds|local|vector|||0.074|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument timestamp  lubridateymd_hmspastedate_of_interview, time,  sep   .Caused by warning33m39m  144 failed to parse.|
+LENA_log_cleaned|stem|ca9a248fdd83adce|048245631034cf06|63fab1ded89f018d|1806204260||t19441.8711580568s|44ee33ce570aaae9|11972|rds|local|vector|||0.374||
+LENA_log_cleaned_long|stem|3eb0411eb87eb7cd|994c1bcd47a30321|4d95e651c7ab78c4|-918139127||t19441.8711590761s|070bfee2ea809635|21514|rds|local|vector|||0.073|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument timestamp  lubridateymd_hmspastedate_of_interview, time,  sep   .Caused by warning33m39m  18 failed to parse.|
 LENA_log_raw|stem|4b72156e81f1fc1e|4b3ddcf8245d29e9|a758fa586fcb7ff5|178109485||t19421.6599109201s|3cfcce7991195b9e|12955|rds|local|vector|||0.023||
 LENA_raw|stem|eebcd0dd293427b6|a35b02ce2727674b|a758fa586fcb7ff5|-912138566||t19421.6599101053s|672b2cbb8aefd736|545934|rds|local|vector|||0.124|1m22mOne or more parsing issues, call problems on your data frame for details,e.g.  dat  vroom...  problemsdat|
 load_xlsx|function|4ed8966ea1835a6c|||||||||||||||
