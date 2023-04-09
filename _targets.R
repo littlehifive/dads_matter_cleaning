@@ -37,7 +37,9 @@ list(
   tar_target(ADEX_raw, readr::read_csv(file.path(box_path, "raw/adex_raw.csv"), show_col_types = FALSE)),
   tar_target(ID_list, 
              readr::read_csv(file.path(box_path, "raw/DadsMatter_MotherIDs.csv"), show_col_types = FALSE) |> 
-               janitor::clean_names()),
+               janitor::clean_names() |> 
+               clean_ID_list()
+             ),
   tar_target(ASQ_cleaned, clean_ASQ(ASQ_raw, ASQ_norm)),
   tar_target(LENA_log_cleaned, clean_LENA_log(LENA_log_raw)),
   tar_target(LENA_log_cleaned_long, clean_LENA_log_long(LENA_log_cleaned, ID_list)),

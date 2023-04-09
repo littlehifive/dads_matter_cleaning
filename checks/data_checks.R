@@ -150,22 +150,22 @@ x <- LENA_cleaned |> select(survey_id, date_of_interview) |> distinct() |>
 
 x <- x |> mutate(interview_sequence = 1:n())
 
-y <- LENA_log_cleaned_long |> select(survey_id, date_of_interview, interview_type) |> 
-  distinct() |> group_by(survey_id) |> arrange(survey_id, date_of_interview)
+y <- ID_list |> rename(survey_id = client_id) |> select(survey_id, date_of_interview, interview_type) |> 
+  distinct() |> group_by(survey_id) |> arrange(survey_id, date_of_interview) |> mutate(date_of_interview = lubridate::mdy(date_of_interview))
 
 test <- x |> left_join(y, by = c("survey_id"))
 
 test <- test |> 
   mutate(date_gap = date_of_interview.x - date_of_interview.y,
          type_match = interview_sequence == interview_type) |> 
-  mutate(date_gap_under_30 = abs(date_gap) <= 30)
-# test <- test |> filter(abs(date_gap) <= 30)
+  mutate(date_gap_under_60 = abs(date_gap) <= 60)
+# test <- test |> filter(abs(date_gap) <= 60)
 
 test <- test |> 
   mutate(interview_type_new = ifelse(
-    date_gap_under_30 == FALSE,
+    date_gap_under_60 == FALSE,
     "Not matched",
-    interview_type
+    as.character(interview_type)
   ))
 
 test_s <- test |> 
@@ -180,3 +180,25 @@ test_s <- test_s |>
 a <- unique(test_s$survey_id)
 b <- unique(LENA_cleaned$survey_id)
 b[! b%in% a]
+
+# check cases with no match with any of the interview types in ID_list
+temp1 <- test |>
+  filter(interview_type_new == "Not matched") %>%
+  group_by(survey_id, date_of_interview.x) %>%
+  summarise(count_not_matched = n()) |> 
+  filter(count_not_matched == 3)
+
+temp2 <- test |> filter(survey_id %in% temp1$survey_id & date_of_interview.x %in% temp1$date_of_interview.x)
+unique(temp2$survey_id)
+
+# 30 as the threshold
+# [1] 21300601 22111901 22117301 31607101 32103301 32400101 32402901 33200801
+# [9] 33202101 33209201 33504801 35105801 35418201 37218501 41102501 41111501
+# [17] 41415201 42101601 51018701 53106701 53110101 53514301 55114001 55418101
+
+# 60 as the threshold
+# [1] 33202101 35105801 41102501 42101601 51018701 55418101
+
+# check how many survey_ids need to drop certain time periods
+
+test <- LENA_cleaned |> filter(survey_id %in% unique(LENA_log_cleaned_long_subset$survey_id))

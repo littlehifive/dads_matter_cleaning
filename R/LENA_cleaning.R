@@ -1,3 +1,15 @@
+# clean ID list (one mistake)
+clean_ID_list <- function(ID_list){
+
+  ID_list_cleaned <- ID_list |> 
+    mutate(date_of_interview = ifelse(client_id == 55312301 & date_of_interview == "3/30/15",
+                                      "3/30/16",
+                                      date_of_interview
+                                      ))
+  
+  return(ID_list_cleaned)
+}
+
 # clean LENA log data
 clean_LENA_log <- function(LENA_log_raw){
   
@@ -87,6 +99,10 @@ clean_LENA_log <- function(LENA_log_raw){
                                TRUE ~ NA_character_)
                                )
   
+  # filter out forms that have not been returned
+  LENA_log_cleaned <- LENA_log_cleaned |> 
+    filter(form != "Not returned")
+  
   return(LENA_log_cleaned)
 }
 
@@ -136,26 +152,82 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
     rename(survey_id = firstname)
   
   # clean LENA ids (pending further checks from Aaron)
-  # LENA_cleaned <- LENA_cleaned |> 
-  #   mutate(
-  #     survey_id = case_when(
-  #       survey_id == 53906401 ~ 53906901,
-  #       survey_id == 11513901 ~ 51513901,
-  #       survey_id == 32011901 ~ 32011701,
-  #       survey_id == 50810801 ~ 50810701,
-  #       TRUE ~ survey_id))
+  LENA_cleaned <- LENA_cleaned |>
+    mutate(
+      survey_id = case_when(
+        survey_id == 11513901 ~ 51513901,
+        survey_id == 33202201 ~ 33202101,
+        survey_id == 33302002 ~ 33302001,
+        survey_id == 36107101 ~ 31607101,
+        TRUE ~ survey_id))
   
   # remove rows that are likely non-consented cases
   LENA_cleaned <- LENA_cleaned |> 
-    filter(!survey_id %in% c(18914801, 55212601))
+    filter(!survey_id %in% c(112415, 16201, 18914801, 36612701, 55212601, 7000101))
+  
+  # use birth dates from ID list (assuming some of them are incorrect in the LENA data)
+  LENA_cleaned <- LENA_cleaned |> 
+    mutate(birthdate = case_when(
+      birthdate == "4/12/2013" ~  "3/12/2013",
+      birthdate == "10/25/2014" ~  "5/16/2014",
+      birthdate == "10/14/2014" ~ 	"10/13/2014",
+      birthdate == "3/11/2015"	 ~ "11/24/2014",
+      birthdate == "11/1/2015" ~  "1/1/2015",
+      birthdate == "3/26/2015"	 ~ "3/16/2015",
+      birthdate == "5/18/2015" ~  "4/7/2015",
+      birthdate == "5/17/2015"	 ~ "5/7/2015",
+      birthdate == "6/14/2015" ~  "6/4/2015",
+      birthdate == "8/22/2015"	 ~ "7/21/2015",
+      birthdate == "7/19/2015" ~  "7/29/2015",
+      birthdate == "7/2/2015"	 ~ "9/2/2015",
+      birthdate == "11/2/2015" ~  "11/30/2015",
+      birthdate == "3/31/2016"	 ~ "4/2/2016",
+      birthdate == "11/15/2016"~ "9/2/2016",
+      TRUE ~ birthdate)
+      ) |> 
+    mutate(birthdate = lubridate::mdy(birthdate))
 
+  # replace LENA interview dates (which is completely unreliable) with interview_type and date_of_interview in ID_list
+  temp <- clean_LENA_dates(LENA_cleaned, LENA_log_cleaned_long)
   
+  LENA_cleaned <- LENA_cleaned |> 
+    left_join(
+      temp,
+      by = c("survey_id", "date_of_interview")
+    )
   
-  # LENA_cleaned <- LENA_cleaned |> 
+  # manually clean the ones that do not 
+  LENA_cleaned <- LENA_cleaned |> 
+    mutate(
+      date_of_interview = case_when(
+        survey_id == "42007001" ~ lubridate::mdy("7/17/15"),
+        survey_id == "50810901" ~ lubridate::mdy("2/18/16"),
+        TRUE ~ date_of_interview
+      ),
+      interview_type_new = case_when(
+        survey_id == "42007001" ~ "1",
+        survey_id == "50810901" ~ "1",
+        TRUE ~ interview_type_new
+      )
+    ) |> 
+    select(-date_of_interview) |>
+    rename(date_of_interview = date_of_interview_new)
+  
+  # create updated timestamp
+  # test <- LENA_cleaned |> 
+  #   mutate(timestamp_new = paste0(date_of_interview,
+  #                             " ",
+  #                             lubridate::hour(timestamp), ":",
+  #                             lubridate::minute(timestamp), ":",
+  #                             lubridate::second(timestamp), "0"
+  #                             )) |> 
+  #   mutate(timestamp = lubridate::ymd_hms(timestamp_new))
+  
+  # remove time periods indicated by parents to drop
+  # test <- LENA_cleaned |>
   #   left_join(LENA_log_cleaned_long_subset,
-  #             by = c("survey_id", "date_of_interview")) |> 
-  #   filter(e == 1 & timestamp > timestamp_start & timestamp < timestamp_end)
+  #             by = c("survey_id", "date_of_interview")) |>
+  #   filter(!(e == 1 & timestamp > timestamp_start & timestamp < timestamp_end))
     
-  # issues with non-matching dates between master id list and lena data
   
 }

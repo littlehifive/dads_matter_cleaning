@@ -197,7 +197,7 @@
 
 ## 03.25
 
-- Question: How should we deal with those with multiple days of recordings in LENA pro but only one log survey indicating when to delete? Should I delete the same time period in all consecutive dates?
+- *Question*: How should we deal with those with multiple days of recordings in LENA pro but only one log survey indicating when to delete? Should I delete the same time period in all consecutive dates?
 
 - Assuming the dates in the LENA dataset are completely unreliable and should not be used, we need to figure out what the most possible interview type is for each particular date. Therefore, a given id assigned a particular interview type can be associated with multiple consecutive dates (recorded by LENA pro). Essentially, I am assigning a new interview_type to the LENA dates from the ID list where the date gap is below 30 days.
 
@@ -229,3 +229,24 @@
 | 16201     | Not in ID list                                                      |                     |
 | 7000101   | Not in ID list                                                      |                     |
 
+## 04.09
+
+- Clean IDs in LENA data: 11513901 ~ 51513901, 33202201 ~ 33202101, 33302002 ~ 33302001, 36107101 ~ 31607101; remove 112415, 16201, 18914801, 36612701, 55212601, 7000101
+
+- Clean birth dates using the correct ones from the master ID list
+
+- Replace LENA interview dates (which is completely unreliable) with interview_type and date_of_interview in ID_list
+
+*Remaining issues:*
+- There are cases in LENA where there isn't a single match with any of the interview date in the master ID list. And the number of these cases depends on the threshold. Given the number of these cases, I would choose 60 days as the threshold and manually try to figure out the 6 problematic cases. From a first glance, there are two cases caused by apprarent typo in the master ID list (2017 instead of 2007)
+
+30 days as the threshold
+[1] 21300601 22111901 22117301 31607101 32103301 32400101 32402901 33200801
+[9] 33202101 33209201 33504801 35105801 35418201 37218501 41102501 41111501
+[17] 41415201 42101601 51018701 53106701 53110101 53514301 55114001 55418101
+
+60 days as the threshold
+[1] 33202101 35105801 41102501 42101601 51018701 55418101
+
+
+- Then, before removing rows based on what parents indicated to drop, we may need to figure out which exact day in a multi-day sequence they are referring to. However, there is no reliable way to detect which day is the actual interview day if there are consecutive days of recording. I would consider filtering out the dates indicated by the parents to drop *for all the days associated with one interview type*. By doing so, we definitely filter out the drop-out periods for the correct day, and it wouldn't hurt much for the other consecutive days since there were not supposed to be recordings on these days and any information we have is additional. 
