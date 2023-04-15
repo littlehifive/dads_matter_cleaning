@@ -2,10 +2,10 @@
 clean_ID_list <- function(ID_list){
 
   ID_list_cleaned <- ID_list |> 
-    mutate(date_of_interview = ifelse(client_id == 55312301 & date_of_interview == "3/30/15",
-                                      "3/30/16",
-                                      date_of_interview
-                                      ))
+    mutate(date_of_interview = case_when(
+      client_id == 55312301 & date_of_interview == "3/30/15" ~ "3/30/16",
+      client_id == 55418101 & date_of_interview == "3/9/07" ~ "3/9/17",
+      TRUE ~ date_of_interview))
   
   return(ID_list_cleaned)
 }
@@ -163,7 +163,8 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
   
   # remove rows that are likely non-consented cases
   LENA_cleaned <- LENA_cleaned |> 
-    filter(!survey_id %in% c(112415, 16201, 18914801, 36612701, 55212601, 7000101))
+    filter(!survey_id %in% c(112415, 16201, 18914801, 36612701, 55212601, 7000101)) |> 
+    filter(!(survey_id == 35105801 & date_of_interview == "2015-06-12"))
   
   # use birth dates from ID list (assuming some of them are incorrect in the LENA data)
   LENA_cleaned <- LENA_cleaned |> 
@@ -186,48 +187,34 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
       TRUE ~ birthdate)
       ) |> 
     mutate(birthdate = lubridate::mdy(birthdate))
-
-  # replace LENA interview dates (which is completely unreliable) with interview_type and date_of_interview in ID_list
+  
+  # replace LENA interview dates (which is completely unreliable) with interview_type and date_of_interview 
+  # in ID_list using 60-day fuzzy matching
   temp <- clean_LENA_dates(LENA_cleaned, LENA_log_cleaned_long)
   
   LENA_cleaned <- LENA_cleaned |> 
     left_join(
       temp,
-      by = c("survey_id", "date_of_interview")
+      by = c("survey_id", "date_of_interview"),
+      relationship = "many-to-many"
     )
   
-  # manually clean the ones that do not 
-  LENA_cleaned <- LENA_cleaned |> 
-    mutate(
-      date_of_interview = case_when(
-        survey_id == "42007001" ~ lubridate::mdy("7/17/15"),
-        survey_id == "50810901" ~ lubridate::mdy("2/18/16"),
-        TRUE ~ date_of_interview
-      ),
-      interview_type_new = case_when(
-        survey_id == "42007001" ~ "1",
-        survey_id == "50810901" ~ "1",
-        TRUE ~ interview_type_new
-      )
-    ) |> 
-    select(-date_of_interview) |>
-    rename(date_of_interview = date_of_interview_new)
-  
   # create updated timestamp
-  # test <- LENA_cleaned |> 
-  #   mutate(timestamp_new = paste0(date_of_interview,
-  #                             " ",
-  #                             lubridate::hour(timestamp), ":",
-  #                             lubridate::minute(timestamp), ":",
-  #                             lubridate::second(timestamp), "0"
-  #                             )) |> 
-  #   mutate(timestamp = lubridate::ymd_hms(timestamp_new))
+  LENA_cleaned <- LENA_cleaned |>
+    mutate(timestamp_new = paste0(date_of_interview_new,
+                              " ",
+                              lubridate::hour(timestamp), ":",
+                              lubridate::minute(timestamp), ":",
+                              lubridate::second(timestamp), "0"
+                              )) |>
+    mutate(timestamp_new = lubridate::ymd_hms(timestamp_new))
   
   # remove time periods indicated by parents to drop
-  # test <- LENA_cleaned |>
-  #   left_join(LENA_log_cleaned_long_subset,
-  #             by = c("survey_id", "date_of_interview")) |>
-  #   filter(!(e == 1 & timestamp > timestamp_start & timestamp < timestamp_end))
+  LENA_cleaned <- LENA_cleaned |>
+    left_join(LENA_log_cleaned_long_subset |> rename(date_of_interview_new = date_of_interview),
+              by = c("survey_id", "date_of_interview_new"),
+              relationship
+              = "many-to-many") |>
+    filter(!(e == 1 & timestamp_new > timestamp_start & timestamp_new < timestamp_end))
     
-  
 }

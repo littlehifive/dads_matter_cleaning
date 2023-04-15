@@ -53,7 +53,7 @@ clean_LENA_dates <- function(LENA_cleaned, LENA_log_cleaned_long){
   y <- ID_list |> rename(survey_id = client_id) |> select(survey_id, date_of_interview, interview_type) |> 
     distinct() |> group_by(survey_id) |> arrange(survey_id, date_of_interview) |> mutate(date_of_interview = lubridate::mdy(date_of_interview))
   
-  test <- x |> left_join(y, by = c("survey_id"), multiple = "all")
+  test <- x |> left_join(y, by = c("survey_id"), relationship = "many-to-many")
   
   test <- test |> 
     mutate(date_gap = date_of_interview.x - date_of_interview.y,
@@ -66,6 +66,20 @@ clean_LENA_dates <- function(LENA_cleaned, LENA_log_cleaned_long){
       date_gap_under_60 == FALSE,
       "Not matched",
       as.character(interview_type)
+    ))
+  
+  # manually clean the interview_type and date_of_interview for cases that do not have a match with
+  # the master ID list after the 60-day fuzzy matching
+  test <- test |> 
+    mutate(interview_type_new = case_when( 
+      survey_id == 33202101 & date_of_interview.x %in% lubridate::as_date(c("2015-11-24", "2015-11-25")) & interview_type == 2 ~ "2",
+      survey_id == 41102501 & date_of_interview.x %in% lubridate::as_date(c("2015-06-10", "2015-06-11")) & interview_type == 1 ~ "1",
+      survey_id == 42101601 & date_of_interview.x == lubridate::as_date("2015-11-13") & interview_type == 2 ~ "2",
+      survey_id == 51018701 & date_of_interview.x %in% lubridate::as_date(c("2018-02-06", "2018-02-07")) & interview_type == 3 ~ "3",
+      survey_id == 55418101 & date_of_interview.x %in% lubridate::as_date(c("2017-03-16", "2017-03-20", "2017-03-21")) & interview_type == 2 ~ "2",
+      survey_id == 42007001 & date_of_interview.x %in% lubridate::as_date(c("2015-09-03", "2015-09-04")) & interview_type == 1 ~ "1",
+      survey_id == 50810901 & date_of_interview.x %in% lubridate::as_date(c("2016-04-20", "2016-04-21")) & interview_type == 1 ~ "1",
+      TRUE ~ interview_type_new 
     ))
   
   test_s <- test |> 

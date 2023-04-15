@@ -202,3 +202,5 @@ unique(temp2$survey_id)
 # check how many survey_ids need to drop certain time periods
 
 test <- LENA_cleaned |> filter(survey_id %in% unique(LENA_log_cleaned_long_subset$survey_id))
+
+unique(LENA_log_cleaned_long_subset$survey_id)

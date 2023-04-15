@@ -250,3 +250,14 @@
 
 
 - Then, before removing rows based on what parents indicated to drop, we may need to figure out which exact day in a multi-day sequence they are referring to. However, there is no reliable way to detect which day is the actual interview day if there are consecutive days of recording. I would consider filtering out the dates indicated by the parents to drop *for all the days associated with one interview type*. By doing so, we definitely filter out the drop-out periods for the correct day, and it wouldn't hurt much for the other consecutive days since there were not supposed to be recordings on these days and any information we have is additional. 
+
+## 04.14
+
+- remove survey_id == 35105801 & date_of_interview == "2015-06-12", because the family did 4 LENA recordings and the first one was a pre-intervention recording and needs to be removed from the dataset.
+
+- manually clean all the ids that do not have a match based on the 60-day fuzzy matching rule
+
+- Link LENA log with the LENA dataset to remove the time periods indicated by parents to drop. There are altogether 27 ids that have something to drop, and 934 5-min clips (out of 39675, 2.4%) should be dropped.
+
+- Still need to manually check one more case 33420701 (only two interview dates available in the ID list): 2018-05-01 in LENA versus 2017-03-20 or 2017-08-09 in the ID list
+
