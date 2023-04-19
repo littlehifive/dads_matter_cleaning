@@ -1,27 +1,30 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-ADEX_raw|stem|527b1bf07848dd11|f089dc8921439db2|a758fa586fcb7ff5|-1833723031||t19421.6599063812s|97905d66a2dabb35|10300|rds|local|vector|||0.078||
+ADEX_raw|stem|849e2706195bd40b|f089dc8921439db2|a758fa586fcb7ff5|-1833723031||t19466.0955063877s|d1dbd431591346d4|1763508|rds|local|vector|||0.753||
 ASQ_cleaned|stem|23084f8fd382a9a1|e4da6086afa2919f|943e09e37a6883f0|1425940426||t19421.6599163192s|6c62bc4930f6247a|37152|rds|local|vector|||0.317||
 ASQ_norm|stem|d5e9613bd7b96867|c94ff5c1eb2d3e65|120dde146dbdbdf0|624182101||t19421.6599118354s|01d717670daa253d|1008|rds|local|vector|||0.075||
 ASQ_raw|stem|5a4a62f67757301e|94ac684cd39c2272|120dde146dbdbdf0|-2091189797||t19421.6599125335s|459b245ffef3dea8|27358|rds|local|vector|||0.051||
 ASQ_raw_file_path|stem|2358f0a912c6341a|57757747bc984d54|106b727ca38470bb|-24967218|/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project/Data cleaning/raw/ASQ data_raw.xlsx|t19394.0838596567s|880092e65a3f804d|380879|file|local|vector|||0.563||
 box_path|object|5436679fed15322e|||||||||||||||
+clean_ADEX|function|80062ca42ae2284a|||||||||||||||
 clean_ASQ|function|87f9513177d69a1e|||||||||||||||
 clean_column|function|a9df6fd9c02074f8|||||||||||||||
-clean_ID_list|function|b146c6378536d689|||||||||||||||
-clean_LENA|function|a1082c6fb6261a0c|||||||||||||||
-clean_LENA_dates|function|865c51335d74a06f|||||||||||||||
+clean_ID_list|function|3073adcd075844d0|||||||||||||||
+clean_LENA|function|3abd10dbf4fe26eb|||||||||||||||
+clean_LENA_dates|function|cdede304de65b4a3|||||||||||||||
 clean_LENA_log|function|b4bce99d06a1ffa2|||||||||||||||
 clean_LENA_log_long|function|cb4cf3ec32280b5f|||||||||||||||
 export_ASQ_cleaned|stem|b2b0c9273d8e74e4|8f206316f287320b|7cb893a3a588196b|2065537901||t19421.6599185149s|f30d6fdd4bf45937|234232|rds|local|vector|||0.116||
 export_csv|function|0c571556980a23c8|||||||||||||||
+export_LENA_cleaned|stem|d6ff9efaecb6c352|67ebd82a9b6de142|82767d5fd047d7c9|703316777||t19466.6123344701s|72aafefff683a205|1554624|rds|local|vector|||5.533||
 export_LENA_log_cleaned|stem|7be853c752c44c94|869e72170a5bde83|1d34e54ee34b640d|111485514||t19456.6735010116s|a568a82e12613c3e|179784|rds|local|vector|||0.121||
-export_LENA_log_long_cleaned|stem|e20512a2c1232e0f|e3fd00c2345bb2f5|73e8397e540f9971|579837143||t19456.6735036095s|169b4e10e9c107df|240094|rds|local|vector|||0.148||
+export_LENA_log_long_cleaned|stem|01de623e808b8b96|e3fd00c2345bb2f5|6e23fed8bdeffb7f|579837143||t19465.9220415592s|86be42656e132d54|240108|rds|local|vector|||0.239||
 export_xlsx|function|6facc8ed78945f75|||||||||||||||
 get_nchar|function|4d3b6a1e0a2e5f84|||||||||||||||
-ID_list|stem|4c4e3f7424fb23af|92ff73afb15bf044|465921065f0d5b01|233567358||t19456.6648907696s|94abc22bcf408883|6959|rds|local|vector|||1.79||
+ID_list|stem|6475f2777ce486e9|92ff73afb15bf044|be49306f23312ad3|233567358||t19465.9220369178s|d69cf7b329273978|6956|rds|local|vector|||0.771||
 identify_NA|function|2c0cfeaf25170681|||||||||||||||
+LENA_cleaned|stem|96070c74772737eb|c7e8fe53d3f6178e|a5a101dd52cd37a4|1473057832||t19466.6122613471s|a996091963fd8a12|579653|rds|local|vector|||1.641|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument timestamp_new  lubridateymd_hmstimestamp_new.Caused by warning33m39m  136 failed to parse.|
 LENA_log_cleaned|stem|0aa6fcf1c491db4b|048245631034cf06|d937eb50f17ddb40|1806204260||t19456.6734983411s|103c6736c1acf650|10542|rds|local|vector|||0.388||
-LENA_log_cleaned_long|stem|27d5e5dafe249b6f|994c1bcd47a30321|02f1a438341f42a8|-918139127||t19456.6734989456s|6967f5bf8e71f093|18993|rds|local|vector|||0.037||
+LENA_log_cleaned_long|stem|7bdc38a50c4e42a4|994c1bcd47a30321|594b5403faacef01|-918139127||t19465.9220377228s|33a27f290b1b41be|18925|rds|local|vector|||0.047||
 LENA_log_raw|stem|4b72156e81f1fc1e|4b3ddcf8245d29e9|a758fa586fcb7ff5|178109485||t19421.6599109201s|3cfcce7991195b9e|12955|rds|local|vector|||0.023||
 LENA_raw|stem|eebcd0dd293427b6|a35b02ce2727674b|a758fa586fcb7ff5|-912138566||t19421.6599101053s|672b2cbb8aefd736|545934|rds|local|vector|||0.124|1m22mOne or more parsing issues, call problems on your data frame for details,e.g.  dat  vroom...  problemsdat|
 load_xlsx|function|4ed8966ea1835a6c|||||||||||||||

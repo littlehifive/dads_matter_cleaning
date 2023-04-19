@@ -204,3 +204,35 @@ unique(temp2$survey_id)
 test <- LENA_cleaned |> filter(survey_id %in% unique(LENA_log_cleaned_long_subset$survey_id))
 
 unique(LENA_log_cleaned_long_subset$survey_id)
+
+
+# ADEX cleaning checks
+a <- sort(unique(ADEX_cleaned$child_child_id))
+b <- sort(unique(LENA_raw$Id))
+a == b
+
+a <- ADEX_cleaned |> filter(child_child_id == "C016")
+b <- LENA_raw |> filter(Id == "C016")
+View(a)
+View(b)
+
+test <- LENA_cleaned |> 
+  select(id, survey_id, timestamp, date_of_interview, 
+         interview_type, same_interview_date_sequence) |> 
+  rename(lena_id = id) |> 
+  select(-timestamp) |> 
+  distinct()
+
+test2 <- ADEX_cleaned |> 
+  rename(lena_id = child_child_id, 
+         timestamp = clock_time_utc) |> 
+  mutate(timestamp = lubridate::mdy_hms(timestamp)) |> 
+  mutate(date_of_interview = lubridate::date(timestamp)) |> 
+  left_join(
+    test, 
+    by = c("lena_id", "date_of_interview"),
+    relationship = "many-to-many"
+  )
+
+x <- test2 |> select(date_of_interview:interview_type_new)
+x |> distinct() |> View()

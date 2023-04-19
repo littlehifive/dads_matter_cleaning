@@ -43,7 +43,7 @@ zscore <- function(x, norm_m, norm_sd){
 }
 
 # clean LENA interview dates using fuzzy matching (< 30 days gap with the dates in ID_list)
-clean_LENA_dates <- function(LENA_cleaned, LENA_log_cleaned_long){
+clean_LENA_dates <- function(LENA_cleaned, LENA_log_cleaned_long, ID_list){
   
   x <- LENA_cleaned |> select(survey_id, date_of_interview) |> distinct() |> 
     group_by(survey_id) |> arrange(survey_id, date_of_interview)

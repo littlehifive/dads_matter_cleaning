@@ -29,6 +29,7 @@ box_path <- "/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project
 
 # Replace the target list below with your own:
 list(
+  # load data
   tar_target(ASQ_raw_file_path, file.path(box_path, "raw/ASQ data_raw.xlsx"), format = "file"),
   tar_target(ASQ_raw, load_xlsx(ASQ_raw_file_path, 1)),
   tar_target(ASQ_norm, load_xlsx(ASQ_raw_file_path, 2)), 
@@ -40,14 +41,20 @@ list(
                janitor::clean_names() |> 
                clean_ID_list()
              ),
+  # clean data
   tar_target(ASQ_cleaned, clean_ASQ(ASQ_raw, ASQ_norm)),
   tar_target(LENA_log_cleaned, clean_LENA_log(LENA_log_raw)),
   tar_target(LENA_log_cleaned_long, clean_LENA_log_long(LENA_log_cleaned, ID_list)),
+  tar_target(LENA_cleaned, clean_LENA(LENA_raw, LENA_log_cleaned_long, ID_list)), 
   tar_target(export_ASQ_cleaned, export_xlsx(ASQ_cleaned, 
                                             file.path(box_path, "cleaned/ASQ_cleaned.xlsx"))),
+  
+  # export cleaned data
   tar_target(export_LENA_log_cleaned, export_xlsx(LENA_log_cleaned, 
                                              file.path(box_path, "cleaned/LENA_log_cleaned.xlsx"))),
   tar_target(export_LENA_log_long_cleaned, export_xlsx(LENA_log_cleaned_long, 
-                                                  file.path(box_path, "cleaned/LENA_log_cleaned_long.xlsx")))
+                                                  file.path(box_path, "cleaned/LENA_log_cleaned_long.xlsx"))),
+  tar_target(export_LENA_cleaned, export_xlsx(LENA_cleaned, 
+                                                  file.path(box_path, "cleaned/LENA_cleaned.xlsx")))
   
 )

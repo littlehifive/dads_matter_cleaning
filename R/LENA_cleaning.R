@@ -134,7 +134,7 @@ clean_LENA_log_long <- function(LENA_log_cleaned, ID_list){
   return(LENA_log_cleaned_long)
 }
 
-clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
+clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
   
   # timestamp from LENA log
   LENA_log_cleaned_long_subset <- LENA_log_cleaned_long |> 
@@ -151,7 +151,7 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
     select(-lastname) |> 
     rename(survey_id = firstname)
   
-  # clean LENA ids (pending further checks from Aaron)
+  # clean LENA ids
   LENA_cleaned <- LENA_cleaned |>
     mutate(
       survey_id = case_when(
@@ -169,28 +169,37 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
   # use birth dates from ID list (assuming some of them are incorrect in the LENA data)
   LENA_cleaned <- LENA_cleaned |> 
     mutate(birthdate = case_when(
-      birthdate == "4/12/2013" ~  "3/12/2013",
-      birthdate == "10/25/2014" ~  "5/16/2014",
-      birthdate == "10/14/2014" ~ 	"10/13/2014",
-      birthdate == "3/11/2015"	 ~ "11/24/2014",
-      birthdate == "11/1/2015" ~  "1/1/2015",
-      birthdate == "3/26/2015"	 ~ "3/16/2015",
-      birthdate == "5/18/2015" ~  "4/7/2015",
-      birthdate == "5/17/2015"	 ~ "5/7/2015",
-      birthdate == "6/14/2015" ~  "6/4/2015",
-      birthdate == "8/22/2015"	 ~ "7/21/2015",
-      birthdate == "7/19/2015" ~  "7/29/2015",
-      birthdate == "7/2/2015"	 ~ "9/2/2015",
-      birthdate == "11/2/2015" ~  "11/30/2015",
-      birthdate == "3/31/2016"	 ~ "4/2/2016",
-      birthdate == "11/15/2016"~ "9/2/2016",
+      survey_id == 53404401 & birthdate == "4/12/2013" ~  "3/12/2013",
+      survey_id == 33317701 & birthdate == "10/25/2014" ~  "5/16/2014",
+      survey_id == 41116501 & birthdate == "10/14/2014" ~ 	"10/13/2014",
+      survey_id == 35609401 & birthdate == "3/11/2015"	 ~ "11/24/2014",
+      survey_id == 33420701 & birthdate == "11/1/2015" ~  "1/1/2015",
+      survey_id == 33601301 & birthdate == "3/26/2015"	 ~ "3/16/2015",
+      survey_id == 34205601 & birthdate == "5/18/2015" ~  "4/7/2015",
+      survey_id == 56017101 & birthdate == "5/17/2015"	 ~ "5/7/2015",
+      survey_id == 52905301 & birthdate == "6/14/2015" ~  "6/4/2015",
+      survey_id == 41005401 & birthdate == "8/22/2015"	 ~ "7/21/2015",
+      survey_id == 53103201 & birthdate == "7/19/2015" ~  "7/29/2015",
+      survey_id == 36612201 & birthdate == "7/2/2015"	 ~ "9/2/2015",
+      survey_id == 33509901 & birthdate == "11/2/2015" ~  "11/30/2015",
+      survey_id == 33309501 & birthdate == "3/31/2016"	 ~ "4/2/2016",
+      survey_id == 51018701 & birthdate == "11/15/2016"~ "9/2/2016",
       TRUE ~ birthdate)
       ) |> 
+    # fix cases with multiple birthdates
+    mutate(birthdate = case_when(
+      survey_id == 31607101 ~ "7/21/2015",
+      survey_id == 33202101 ~ "12/4/12",
+      survey_id == 33601301 ~ "3/16/15",
+      survey_id == 41005401 ~ "7/21/15",
+      survey_id == 53103201 ~ "7/29/15",
+      TRUE ~ birthdate
+    )) |> 
     mutate(birthdate = lubridate::mdy(birthdate))
   
   # replace LENA interview dates (which is completely unreliable) with interview_type and date_of_interview 
   # in ID_list using 60-day fuzzy matching
-  temp <- clean_LENA_dates(LENA_cleaned, LENA_log_cleaned_long)
+  temp <- clean_LENA_dates(LENA_cleaned, LENA_log_cleaned_long, ID_list)
   
   LENA_cleaned <- LENA_cleaned |> 
     left_join(
@@ -213,8 +222,21 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long){
   LENA_cleaned <- LENA_cleaned |>
     left_join(LENA_log_cleaned_long_subset |> rename(date_of_interview_new = date_of_interview),
               by = c("survey_id", "date_of_interview_new"),
-              relationship
-              = "many-to-many") |>
-    filter(!(e == 1 & timestamp_new > timestamp_start & timestamp_new < timestamp_end))
+              relationship = "many-to-many") |>
+    filter(
+      is.na(e) | 
+      is.na(timestamp_new) | 
+      is.na(timestamp_start) | 
+      is.na(timestamp_end) | 
+      !(e == 1 & timestamp_new > timestamp_start & timestamp_new < timestamp_end))
+  
+  LENA_cleaned <- LENA_cleaned |> 
+    mutate(timestamp = timestamp_new,
+           date_of_interview = date_of_interview_new,
+           interview_type = interview_type_new) |> 
+    select(-c(timestamp_new, interview_type_new, date_of_interview_new, timestamp_start, timestamp_end, e)) |> 
+    select(type:timestamp, date_of_interview, interview_type, same_interview_date_sequence,
+           duration:ava_avg_score_pct)
     
+  return(LENA_cleaned)
 }
