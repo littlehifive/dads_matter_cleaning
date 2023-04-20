@@ -164,7 +164,8 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
   # remove rows that are likely non-consented cases
   LENA_cleaned <- LENA_cleaned |> 
     filter(!survey_id %in% c(112415, 16201, 18914801, 36612701, 55212601, 7000101)) |> 
-    filter(!(survey_id == 35105801 & date_of_interview == "2015-06-12"))
+    filter(!(survey_id == 35105801 & date_of_interview == "2015-06-12")) |> 
+    filter(!is.na(survey_id))
   
   # use birth dates from ID list (assuming some of them are incorrect in the LENA data)
   LENA_cleaned <- LENA_cleaned |> 
@@ -189,10 +190,10 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
     # fix cases with multiple birthdates
     mutate(birthdate = case_when(
       survey_id == 31607101 ~ "7/21/2015",
-      survey_id == 33202101 ~ "12/4/12",
-      survey_id == 33601301 ~ "3/16/15",
-      survey_id == 41005401 ~ "7/21/15",
-      survey_id == 53103201 ~ "7/29/15",
+      survey_id == 33202101 ~ "12/4/2012",
+      survey_id == 33601301 ~ "3/16/2015",
+      survey_id == 41005401 ~ "7/21/2015",
+      survey_id == 53103201 ~ "7/29/2015",
       TRUE ~ birthdate
     )) |> 
     mutate(birthdate = lubridate::mdy(birthdate))
@@ -230,13 +231,15 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
       is.na(timestamp_end) | 
       !(e == 1 & timestamp_new > timestamp_start & timestamp_new < timestamp_end))
   
+  # reorder variables
   LENA_cleaned <- LENA_cleaned |> 
     mutate(timestamp = timestamp_new,
            date_of_interview = date_of_interview_new,
            interview_type = interview_type_new) |> 
     select(-c(timestamp_new, interview_type_new, date_of_interview_new, timestamp_start, timestamp_end, e)) |> 
     select(type:timestamp, date_of_interview, interview_type, same_interview_date_sequence,
-           duration:ava_avg_score_pct)
+           duration:ava_avg_score_pct) |> 
+    distinct() # remove the duplicates craeted in the multiway matching in the previous step
     
   return(LENA_cleaned)
 }
