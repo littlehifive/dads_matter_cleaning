@@ -253,6 +253,7 @@
 
 ## 04.14
 
+*LENA:*
 - remove survey_id == 35105801 & date_of_interview == "2015-06-12", because the family did 4 LENA recordings and the first one was a pre-intervention recording and needs to be removed from the dataset.
 
 - manually clean all the ids that do not have a match based on the 60-day fuzzy matching rule
@@ -260,4 +261,11 @@
 - Link LENA log with the LENA dataset to remove the time periods indicated by parents to drop. There are altogether 27 ids that have something to drop, and 934 5-min clips (out of 39675, 2.4%) should be dropped.
 
 - Still need to manually check one more case 33420701 (only two interview dates available in the ID list): 2018-05-01 in LENA versus 2017-03-20 or 2017-08-09 in the ID list
+
+*ADEX:*
+- I applied the same data cleaning process for LENA dataset to the ADEX dataset, and all cleaning steps have been successfully replicated and implemented.
+
+- One issue is that the raw LENA and ADEX files have different number of rows in the first place (LENA: 40435, ADEX: 40474). I suspect it's because the parsing of the ITS file is more accurate than the output directly from the LENA software, but I am not sure. 
+
+- A maybe related issue is that some of the ADEX timestamps do not perfectly match with the LENA ones, on the "seconds" level. Maybe the ITS files contain more accurate information about the timestamps.
 
