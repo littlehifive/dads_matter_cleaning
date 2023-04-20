@@ -1,28 +1,30 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+ADEX_cleaned|stem|e0948b9c43300544|2ef23f497b886af6|d577725480d90792|1685452380||t19467.088616936s|72a85a9ae5e0769e|1720404|rds|local|vector|||1.736|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument timestamp_new  lubridateymd_hmstimestamp_new.Caused by warning33m39m  125 failed to parse.|
 ADEX_raw|stem|849e2706195bd40b|f089dc8921439db2|a758fa586fcb7ff5|-1833723031||t19466.0955063877s|d1dbd431591346d4|1763508|rds|local|vector|||0.753||
 ASQ_cleaned|stem|23084f8fd382a9a1|e4da6086afa2919f|943e09e37a6883f0|1425940426||t19421.6599163192s|6c62bc4930f6247a|37152|rds|local|vector|||0.317||
 ASQ_norm|stem|d5e9613bd7b96867|c94ff5c1eb2d3e65|120dde146dbdbdf0|624182101||t19421.6599118354s|01d717670daa253d|1008|rds|local|vector|||0.075||
 ASQ_raw|stem|5a4a62f67757301e|94ac684cd39c2272|120dde146dbdbdf0|-2091189797||t19421.6599125335s|459b245ffef3dea8|27358|rds|local|vector|||0.051||
 ASQ_raw_file_path|stem|2358f0a912c6341a|57757747bc984d54|106b727ca38470bb|-24967218|/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project/Data cleaning/raw/ASQ data_raw.xlsx|t19394.0838596567s|880092e65a3f804d|380879|file|local|vector|||0.563||
 box_path|object|5436679fed15322e|||||||||||||||
-clean_ADEX|function|80062ca42ae2284a|||||||||||||||
+clean_ADEX|function|7e58554837dcef72|||||||||||||||
 clean_ASQ|function|87f9513177d69a1e|||||||||||||||
 clean_column|function|a9df6fd9c02074f8|||||||||||||||
 clean_ID_list|function|3073adcd075844d0|||||||||||||||
-clean_LENA|function|3abd10dbf4fe26eb|||||||||||||||
+clean_LENA|function|cc1488809d81dd7c|||||||||||||||
 clean_LENA_dates|function|cdede304de65b4a3|||||||||||||||
 clean_LENA_log|function|b4bce99d06a1ffa2|||||||||||||||
 clean_LENA_log_long|function|cb4cf3ec32280b5f|||||||||||||||
+export_ADEX_cleaned|stem|bc76e10688f93dc1|3744376d0660c6d2|f8de1b7b685834dc|700366640||t19467.0887556007s|cbf2f25e91ad9d24|3071065|rds|local|vector|||5.96||
 export_ASQ_cleaned|stem|b2b0c9273d8e74e4|8f206316f287320b|7cb893a3a588196b|2065537901||t19421.6599185149s|f30d6fdd4bf45937|234232|rds|local|vector|||0.116||
 export_csv|function|0c571556980a23c8|||||||||||||||
-export_LENA_cleaned|stem|d6ff9efaecb6c352|67ebd82a9b6de142|82767d5fd047d7c9|703316777||t19466.6123344701s|72aafefff683a205|1554624|rds|local|vector|||5.533||
+export_LENA_cleaned|stem|33b43f3b170c7f97|67ebd82a9b6de142|c285b88c1a537663|703316777||t19467.088674524s|b2d62bb49515162c|1416844|rds|local|vector|||4.343||
 export_LENA_log_cleaned|stem|7be853c752c44c94|869e72170a5bde83|1d34e54ee34b640d|111485514||t19456.6735010116s|a568a82e12613c3e|179784|rds|local|vector|||0.121||
 export_LENA_log_long_cleaned|stem|01de623e808b8b96|e3fd00c2345bb2f5|6e23fed8bdeffb7f|579837143||t19465.9220415592s|86be42656e132d54|240108|rds|local|vector|||0.239||
 export_xlsx|function|6facc8ed78945f75|||||||||||||||
 get_nchar|function|4d3b6a1e0a2e5f84|||||||||||||||
 ID_list|stem|6475f2777ce486e9|92ff73afb15bf044|be49306f23312ad3|233567358||t19465.9220369178s|d69cf7b329273978|6956|rds|local|vector|||0.771||
 identify_NA|function|2c0cfeaf25170681|||||||||||||||
-LENA_cleaned|stem|96070c74772737eb|c7e8fe53d3f6178e|a5a101dd52cd37a4|1473057832||t19466.6122613471s|a996091963fd8a12|579653|rds|local|vector|||1.641|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument timestamp_new  lubridateymd_hmstimestamp_new.Caused by warning33m39m  136 failed to parse.|
+LENA_cleaned|stem|d035bfd0a36f5bbd|c7e8fe53d3f6178e|c96938a050ec6d25|1473057832||t19467.0885905196s|0044787c47ea6480|542182|rds|local|vector|||1.617|1m22mThere was 1 warning in mutate.1m22m36mℹ39m In argument timestamp_new  lubridateymd_hmstimestamp_new.Caused by warning33m39m  125 failed to parse.|
 LENA_log_cleaned|stem|0aa6fcf1c491db4b|048245631034cf06|d937eb50f17ddb40|1806204260||t19456.6734983411s|103c6736c1acf650|10542|rds|local|vector|||0.388||
 LENA_log_cleaned_long|stem|7bdc38a50c4e42a4|994c1bcd47a30321|594b5403faacef01|-918139127||t19465.9220377228s|33a27f290b1b41be|18925|rds|local|vector|||0.047||
 LENA_log_raw|stem|4b72156e81f1fc1e|4b3ddcf8245d29e9|a758fa586fcb7ff5|178109485||t19421.6599109201s|3cfcce7991195b9e|12955|rds|local|vector|||0.023||

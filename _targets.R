@@ -46,15 +46,18 @@ list(
   tar_target(LENA_log_cleaned, clean_LENA_log(LENA_log_raw)),
   tar_target(LENA_log_cleaned_long, clean_LENA_log_long(LENA_log_cleaned, ID_list)),
   tar_target(LENA_cleaned, clean_LENA(LENA_raw, LENA_log_cleaned_long, ID_list)), 
+  tar_target(ADEX_cleaned, clean_ADEX(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list)),
+  
+  # export cleaned data
   tar_target(export_ASQ_cleaned, export_xlsx(ASQ_cleaned, 
                                             file.path(box_path, "cleaned/ASQ_cleaned.xlsx"))),
   
-  # export cleaned data
   tar_target(export_LENA_log_cleaned, export_xlsx(LENA_log_cleaned, 
                                              file.path(box_path, "cleaned/LENA_log_cleaned.xlsx"))),
   tar_target(export_LENA_log_long_cleaned, export_xlsx(LENA_log_cleaned_long, 
                                                   file.path(box_path, "cleaned/LENA_log_cleaned_long.xlsx"))),
   tar_target(export_LENA_cleaned, export_xlsx(LENA_cleaned, 
-                                                  file.path(box_path, "cleaned/LENA_cleaned.xlsx")))
-  
+                                                  file.path(box_path, "cleaned/LENA_cleaned.xlsx"))),
+  tar_target(export_ADEX_cleaned, export_xlsx(ADEX_cleaned, 
+                                              file.path(box_path, "cleaned/ADEX_cleaned.xlsx")))
 )
