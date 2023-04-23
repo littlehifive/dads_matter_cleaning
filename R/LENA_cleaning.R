@@ -209,6 +209,29 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
       relationship = "many-to-many"
     )
   
+  # additional manual cleaning
+  LENA_cleaned <- LENA_cleaned |> 
+    mutate(date_of_interview = if_else(
+      survey_id == 33420701 & date_of_interview == lubridate::as_date("2018-05-01"),
+      lubridate::as_date("2018-04-10"),
+      date_of_interview
+    )) |> 
+    mutate(date_of_interview_new = if_else(
+      survey_id == 33420701 & date_of_interview == lubridate::as_date("2018-04-10"),
+      lubridate::as_date("2018-04-10"),
+      date_of_interview_new
+    )) |> 
+    mutate(interview_type_new = if_else(
+      survey_id == 33420701 & date_of_interview == lubridate::as_date("2018-04-10"),
+      "3",
+      interview_type_new
+    )) |> 
+    mutate(same_interview_date_sequence = if_else(
+      survey_id == 33420701 & date_of_interview == lubridate::as_date("2018-04-10"),
+      "day 1",
+      same_interview_date_sequence
+    ))
+  
   # create updated timestamp
   LENA_cleaned <- LENA_cleaned |>
     mutate(timestamp_new = paste0(date_of_interview_new,

@@ -269,3 +269,20 @@
 
 - A maybe related issue is that some of the ADEX timestamps do not perfectly match with the LENA ones, on the "seconds" level. Maybe the ITS files contain more accurate information about the timestamps.
 
+## 04.23
+
+- Although there are only very few cases when other people are present when parents are present, there are many cases when only other people are present. These people could be relatives, but in the original excel file, it says "Other person. No need to specify. Enter only numeric values." So there is no way for us to know who these people are.
+
+| Who is present in the household?            | Prop    | Freq |
+| :----------------------------------------- | :-----: | ---- |
+| Father                                     | 0.022   | 54   |
+| Father and other person                     | 0.001   | 2    |
+| Mother                                     | 0.262   | 630  |
+| Mother and father                          | 0.3     | 721  |
+| Mother and other person                     | 0.005   | 13   |
+| Mother, father, and other person            | 0.006   | 15   |
+| Other person                               | 0.403   | 970  |
+
+
+
+

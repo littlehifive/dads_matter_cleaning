@@ -236,3 +236,12 @@ test2 <- ADEX_cleaned |>
 
 x <- test2 |> select(date_of_interview:interview_type_new)
 x |> distinct() |> View()
+
+# visualize who is in the household during the interview
+ggplot(LENA_log_cleaned_long) +
+  aes(x = timestamp, y = p, fill = p, colour = p) +
+  geom_tile() +
+  scale_fill_hue(direction = 1) +
+  scale_color_hue(direction = 1) +
+  labs(x = "Timestamp", y = "Who is present in household?") +
+  theme_minimal()
