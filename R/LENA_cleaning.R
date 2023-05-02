@@ -1,4 +1,4 @@
-# clean ID list (one mistake)
+# clean ID list
 clean_ID_list <- function(ID_list){
 
   ID_list_cleaned <- ID_list |> 
@@ -76,11 +76,11 @@ clean_LENA_log <- function(LENA_log_raw){
                   x == 0 ~ NA_character_,
                   x == 1 ~ "Mother",
                   x == 2 ~ "Father",
-                  x %in% c(3, 123, 13, 23, 12) ~ "Mother and father",
+                  x %in% c(12, 3) ~ "Mother and father",
                   x == 4 ~ "Other person",
-                  x == 34 ~ "Mother, father, and other person",
-                  x == 24 ~ "Father and other person",
-                  x == 14 ~ "Mother and other person",
+                  x %in% c(123, 34) ~ "Mother, father, and other person",
+                  x %in% c(23, 24) ~ "Father and other person",
+                  x %in% c(13, 14) ~ "Mother and other person",
                   TRUE ~ NA_character_
                 )
               }) |> 
@@ -88,9 +88,10 @@ clean_LENA_log <- function(LENA_log_raw){
       p17 == "0" ~ NA_character_,
       p17 == "1" ~ "Mother",
       p17 == "2" ~ "Father",
-      p17 %in% c("3", "1, 2", "1,2", "1,2,3", "1,3") ~ "Mother and father",
+      p17 %in% c("3", "1, 2", "1,2") ~ "Mother and father",
       p17 == "4" ~ "Other person",
-      p17 == "1,4" ~ "Mother and other person",
+      p17 %in% c("1,2,3") ~ "Mother, father, and other person",
+      p17 %in% c("1,3", "1,4") ~ "Mother and other person",
       TRUE ~ NA_character_
     )) |> 
     mutate(typical = case_when(typical == 1 ~ "Speak equal to a typical day",
@@ -130,6 +131,10 @@ clean_LENA_log_long <- function(LENA_log_cleaned, ID_list){
   # create datetime combining dates and hours
   LENA_log_cleaned_long <- LENA_log_cleaned_long |> 
     mutate(timestamp = lubridate::ymd_hms(paste(date_of_interview, time, sep = " ")))
+  
+  # if only other person is present also indicate to drop
+  LENA_log_cleaned_long <- LENA_log_cleaned_long |> 
+    mutate(e = ifelse(p == "Other person", 1, e))
   
   return(LENA_log_cleaned_long)
 }
@@ -262,7 +267,11 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
     select(-c(timestamp_new, interview_type_new, date_of_interview_new, timestamp_start, timestamp_end, e)) |> 
     select(type:timestamp, date_of_interview, interview_type, same_interview_date_sequence,
            duration:ava_avg_score_pct) |> 
-    distinct() # remove the duplicates craeted in the multiway matching in the previous step
+    distinct() # remove the duplicates created in the multi-way matching in the previous step
+  
+  # filter out incomplete non-5-min segments
+  LENA_cleaned <- LENA_cleaned |> 
+    filter(duration == as.difftime("00:05:00"))
     
   return(LENA_cleaned)
 }

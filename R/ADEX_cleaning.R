@@ -109,5 +109,9 @@ clean_ADEX <- function(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list){
            awc:peak_signal_level) |> 
     distinct() # remove the duplicates craeted in the multiway matching in the previous step
   
+  # filter out incomplete non-5-min segments
+  ADEX_cleaned <- ADEX_cleaned |> 
+    filter(lubridate::second(timestamp) == 0)
+  
   return(ADEX_cleaned)
 }
