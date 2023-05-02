@@ -285,4 +285,14 @@
 
 
 
+## 05.01
 
+- In both LENA and ADEX, I dropped time periods where only "other person" was present for ethical reason listed in the IRB
+
+- Remove incomplete non-5-min clips from LENA (1092/39568 = 2.7%) and ADEX (616/39592 = 1.6%)
+
+- 20.5% of all segments have at least 15 minutes of consecutive no-meaningful-interaction, and 35.3% of these no-meaningful-interaction periods happened in between midnight and 6am. Between midnight and 6am, 65% of the segments are a part of at least 15 minutes of consecutive no-meaningful-interaction chunks.
+
+- We should first determine whether to remove a certain period of data for all families. If so, we need to a period (e.g., midnight to 6am; see informational graphs in the Word doc). Given the sparsity of no-meaningful-interaction chunks, we can maybe assume that all activities during the day are somewhat meaningful to the baby's development (even long periods of no interaction). Then we divide the summary indices (e.g., sum of the word count) by the length of this common period.
+
+- If we are still interested in the limited interactions happening during night (e.g., when babies woke up and parents had to talk a little bit), we can create two sets of summary indices, one during the day, and one during the night. 

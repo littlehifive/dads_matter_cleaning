@@ -245,3 +245,133 @@ ggplot(LENA_log_cleaned_long) +
   scale_color_hue(direction = 1) +
   labs(x = "Timestamp", y = "Who is present in household?") +
   theme_minimal()
+
+prop.table(table(LENA_log_cleaned_long$p)) |> round(3)
+
+# get average word count across timestamps (regardless of actual date), grouped by interview_type
+temp <- LENA_cleaned |> select(survey_id, timestamp, interview_type,
+                               meaningful:silence, awc_actual, ctc_actual, cvc_actual)
+
+temp <- temp |> 
+  mutate_at(vars(meaningful, distant, tv, noise, silence), 
+            function(x){
+              as.numeric(lubridate::minute(x)) * 60 + 
+                as.numeric(lubridate::second(x))
+            }) |> 
+  mutate(timestamp_s = data.table::as.ITime(timestamp))
+
+temp_s <- temp |> group_by(interview_type, timestamp_s) |> 
+  summarise_at(vars(meaningful, distant, tv, noise, silence, 
+                    awc_actual, ctc_actual, cvc_actual),
+               function(x){mean(x, na.rm = T)})
+
+temp_s$timestamp_s <- as.POSIXct(temp_s$timestamp_s)
+temp_s$interview_type <- paste0("Interview Type ", temp_s$interview_type)
+
+temp_s1 <- temp_s |> select(-c(awc_actual, ctc_actual, cvc_actual)) |> 
+  pivot_longer(meaningful:silence, names_to = "type", values_to = "seconds")
+
+ggplot(temp_s1, aes(x = timestamp_s, y = seconds, color = type)) +
+  geom_point(alpha = 0.2) + 
+  geom_smooth(fill = NA) +
+  scale_x_datetime(labels = scales::time_format("%H:%M:%S")) +
+  facet_wrap(~ interview_type, nrow = 3) + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_bw() + 
+  labs(x = "Time during the day", y = "Number of seconds in a 5-min segment",
+       color = "Segment Type")
+
+temp_s2 <- temp_s |> select(interview_type, timestamp_s, awc_actual, ctc_actual, cvc_actual)
+
+p1 <- ggplot(temp_s2, aes(x = timestamp_s, y = awc_actual, color = interview_type)) +
+  geom_point(alpha = 0.2) + 
+  geom_smooth(fill = NA) +
+  scale_x_datetime(labels = scales::time_format("%H:%M:%S")) +
+  scale_color_brewer(palette = "Set2") + 
+  theme_bw() + 
+  labs(x = "Time during the day", y = "", title = "Average count of adult words in a 5-min segment",
+       color = "Interview Time");p1
+
+p2 <- ggplot(temp_s2, aes(x = timestamp_s, y = ctc_actual, color = interview_type)) +
+  geom_point(alpha = 0.2) + 
+  geom_smooth(fill = NA) +
+  scale_x_datetime(labels = scales::time_format("%H:%M:%S")) +
+  scale_color_brewer(palette = "Set2") + 
+  theme_bw() + 
+  labs(x = "Time during the day", y = "", title = "Average count of conversational turns in a 5-min segment",
+       color = "Interview Time");p2
+
+p3 <- ggplot(temp_s2, aes(x = timestamp_s, y = cvc_actual, color = interview_type)) +
+  geom_point(alpha = 0.2) + 
+  geom_smooth(fill = NA) +
+  scale_x_datetime(labels = scales::time_format("%H:%M:%S")) +
+  scale_color_brewer(palette = "Set2") + 
+  theme_bw() + 
+  labs(x = "Time during the day", y = "", title = "Average count of child vocalizations in a 5-min segment",
+       color = "Interview Time");p3
+
+gridExtra::grid.arrange(p1, p2, p3, nrow = 3)
+
+# check consecutive no-meaningful categories (>= 15 mins)
+temp <- temp |> 
+  group_by(survey_id) |> 
+  mutate(no_meaningful_noninteraction = case_when(
+    # Check if the current row and the previous two rows have duration 0
+    meaningful == 0 & lag(meaningful) == 0 & lag(meaningful, 2) == 0 ~ 1,
+    
+    # Check if the current row and the next two rows have duration 0
+    meaningful == 0 & lead(meaningful) == 0 & lead(meaningful, 2) == 0 ~ 1,
+    
+    # Check if the current row and the previous and next rows have duration 0
+    meaningful == 0 & lag(meaningful) == 0 & lead(meaningful) == 0 ~ 1,
+    
+    # In all other cases, assign 0
+    TRUE ~ 0
+  ))
+
+temp$timestamp_s <- as.POSIXct(temp$timestamp_s)
+
+temp$no_meaningful_noninteraction_f <- factor(temp$no_meaningful_noninteraction,
+                                            levels = c(1,0))
+
+ggplot(temp) +
+  aes(
+    x = timestamp_s,
+    y = factor(survey_id),
+    colour = no_meaningful_noninteraction_f
+  ) +
+  geom_point(size = 0.5, alpha = 0.6) +
+  theme_minimal() +
+  labs(x = "Time during the day", y = "",
+       color = "No meaningful interaction for at least 15 minutes")
+
+
+x <- temp |> 
+  group_by(survey_id) |> 
+  summarise(p_no_meaningful_noninteraction = sum(no_meaningful_noninteraction)/n())
+
+hist(x$p_no_meaningful_noninteraction,
+     main = "Proportion of the segments having\nat least 15 minutes of no meaningful interaction\n(Mean = 0.18, SD = 0.16)",
+     xlab = "")
+mean(x$p_no_meaningful_noninteraction)
+
+prop.table(table(temp$no_meaningful_noninteraction))
+
+temp$no_meaningful_noninteraction_sleep <- ifelse(
+  temp$no_meaningful_noninteraction == 1 & 
+    temp$timestamp_s < as.POSIXct("2023-05-02 06:00:00", tz = "GMT") & 
+    temp$timestamp_s > as.POSIXct("2023-05-02 00:00:00", tz = "GMT"),
+  1,
+  0
+)
+
+table(temp$no_meaningful_noninteraction_sleep)
+table(temp$no_meaningful_noninteraction)
+
+2791/7900
+
+prop.table(table(temp |> 
+                   filter(timestamp_s < as.POSIXct("2023-05-02 06:00:00", tz = "GMT") & 
+                            timestamp_s > as.POSIXct("2023-05-02 00:00:00", tz = "GMT")) |>  
+                   pull(no_meaningful_noninteraction)))
+
