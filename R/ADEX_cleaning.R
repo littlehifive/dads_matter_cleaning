@@ -11,6 +11,14 @@ clean_ADEX <- function(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list){
     mutate(date_of_interview = lubridate::date(timestamp)) |> 
     rename(age = child_age, sex = child_gender)
   
+  # some LENA ids are different for the same survey_id
+  ADEX_cleaned <- ADEX_cleaned |> 
+    mutate(id = case_when(
+      id == "C085" ~ "C066",
+      id == "C011" ~ "C010",
+      TRUE ~ id
+    ))
+  
   # add survey_id to ADEX dataset from LENA dataset
   temp <- LENA_cleaned |> select(id, survey_id) |> distinct() |> na.omit()
   
@@ -112,6 +120,36 @@ clean_ADEX <- function(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list){
   # filter out incomplete non-5-min segments
   ADEX_cleaned <- ADEX_cleaned |> 
     filter(lubridate::second(timestamp) == 0)
+  
+  # certain numeric variables are coded as character
+  ADEX_cleaned <- ADEX_cleaned |> 
+    mutate_at(vars(ava_ss, emlu, ava_da),
+              function(x){
+                ifelse(x == "ORL",
+                       NA,
+                       x)}
+              ) |> 
+    mutate_at(vars(ava_ss, emlu, ava_da),
+              as.numeric)
+  
+  # calculate the average of the indices for families with multiple recordings across consecutive days
+  temp <- ADEX_cleaned |> 
+    group_by(survey_id, timestamp) |> 
+    summarise_at(vars(awc:peak_signal_level),
+                 function(x){mean(x, na.rm = T)})
+  
+  temp1 <- temp |> mutate(date_of_interview = as.Date(timestamp))
+  
+  temp2 <- ADEX_cleaned |> 
+    select(id, survey_id, birthdate, date_of_interview, interview_type) |> 
+    distinct()
+  
+  ADEX_cleaned <- temp1 |> left_join(temp2, by = c("survey_id", "date_of_interview"))
+  
+  # rearrange variable order
+  ADEX_cleaned <- ADEX_cleaned |> 
+    select(survey_id, id, birthdate, timestamp, date_of_interview, interview_type,
+           awc:peak_signal_level)
   
   return(ADEX_cleaned)
 }

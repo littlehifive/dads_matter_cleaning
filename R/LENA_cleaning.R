@@ -272,6 +272,36 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
   # filter out incomplete non-5-min segments
   LENA_cleaned <- LENA_cleaned |> 
     filter(duration == as.difftime("00:05:00"))
+  
+  # some LENA ids are different for the same survey_id
+  LENA_cleaned <- LENA_cleaned |> 
+    mutate(id = case_when(
+      id == "C085" ~ "C066",
+      id == "C011" ~ "C010",
+      TRUE ~ id
+    ))
+  
+  # calculate the average of the indices for families with multiple recordings across consecutive days
+  temp <- LENA_cleaned |> 
+    group_by(survey_id, timestamp) |> 
+    summarise_at(vars(duration, meaningful, distant, tv, noise, silence, awc_actual, 
+                      ctc_actual, cvc_actual, ava_std_score),
+                 function(x){mean(x, na.rm = T)})
+  
+  temp1 <- temp |> mutate(date_of_interview = as.Date(timestamp))
+  
+  temp2 <- LENA_cleaned |> 
+    select(id, survey_id, birthdate, date_of_interview, interview_type) |> 
+    distinct()
+  
+  LENA_cleaned <- temp1 |> left_join(temp2, by = c("survey_id", "date_of_interview"))
+  
+  # change seconds back to hms and rearrange variable order
+  LENA_cleaned <- LENA_cleaned |> 
+    mutate_at(vars(duration:silence),
+              hms::as_hms) |> 
+    select(survey_id, id, birthdate, timestamp, date_of_interview, interview_type,
+           duration:ava_std_score)
     
   return(LENA_cleaned)
 }
