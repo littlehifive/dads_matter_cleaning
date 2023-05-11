@@ -296,3 +296,11 @@
 - We should first determine whether to remove a certain period of data for all families. If so, we need to a period (e.g., midnight to 6am; see informational graphs in the Word doc). Given the sparsity of no-meaningful-interaction chunks, we can maybe assume that all activities during the day are somewhat meaningful to the baby's development (even long periods of no interaction). Then we divide the summary indices (e.g., sum of the word count) by the length of this common period.
 
 - If we are still interested in the limited interactions happening during night (e.g., when babies woke up and parents had to talk a little bit), we can create two sets of summary indices, one during the day, and one during the night. 
+
+## 05.10
+
+- If there are consecutive days of recordings in the same interview round, I take the average of the indices across the common 5-mins across these days.
+
+- I created three sets of summary ADEX/LENA datasets, using three time periods: 11pm - 6am; 12am - 6am; 1am - 6am. All indices are averaged for segments in these periods (night time) as well as outside these periods (day time).
+
+- I made separate codebooks for each dataset that I cleaned.

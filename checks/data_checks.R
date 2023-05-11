@@ -375,3 +375,56 @@ prop.table(table(temp |>
                             timestamp_s > as.POSIXct("2023-05-02 00:00:00", tz = "GMT")) |>  
                    pull(no_meaningful_noninteraction)))
 
+# check correlations across indices under different time cutoffs
+temp_11_to_6 <- LENA_indices_cleaned_11_to_6 |> 
+  mutate(timestamp_11_to_6 = ifelse(timestamp_11_to_6 == 1, "night", "day")) |> 
+  pivot_wider(names_from = timestamp_11_to_6,
+              names_glue = "{.value}_{timestamp_11_to_6}",
+              values_from = meaningful:ava_std_score) |> 
+  ungroup() |> 
+  select(-c(id, birthdate, interview_type))
+
+names(temp_11_to_6)[3:20] <- paste0(names(temp_11_to_6)[3:20], "_11_to_6")
+
+temp_0_to_6 <- LENA_indices_cleaned_0_to_6 |> 
+  mutate(timestamp_0_to_6 = ifelse(timestamp_0_to_6 == 1, "night", "day")) |> 
+  pivot_wider(names_from = timestamp_0_to_6,
+              names_glue = "{.value}_{timestamp_0_to_6}",
+              values_from = meaningful:ava_std_score) |> 
+  ungroup() |> 
+  select(-c(id, birthdate, interview_type))
+
+names(temp_0_to_6)[3:20] <- paste0(names(temp_0_to_6)[3:20], "_0_to_6")
+
+temp_1_to_6 <- LENA_indices_cleaned_1_to_6 |> 
+  mutate(timestamp_1_to_6 = ifelse(timestamp_1_to_6 == 1, "night", "day")) |> 
+  pivot_wider(names_from = timestamp_1_to_6,
+              names_glue = "{.value}_{timestamp_1_to_6}",
+              values_from = meaningful:ava_std_score) |> 
+  ungroup() |> 
+  select(-c(id, birthdate, interview_type))
+
+names(temp_1_to_6)[3:20] <- paste0(names(temp_1_to_6)[3:20], "_1_to_6")
+
+temp <- temp_11_to_6 |> 
+  left_join(temp_0_to_6, by = c("survey_id", "date_of_interview")) |> 
+  left_join(temp_1_to_6, by = c("survey_id", "date_of_interview"))
+
+
+# Libraries
+library(ellipse)
+library(RColorBrewer)
+
+# Use of the mtcars data proposed by R
+data <- cor(temp |> select(contains("_day")) |> 
+              mutate_all(as.numeric),
+            use = "complete.obs")
+
+# Build a Pannel of 100 colors with Rcolor Brewer
+my_colors <- brewer.pal(5, "Spectral")
+my_colors <- colorRampPalette(my_colors)(100)
+
+# Order the correlation matrix
+ord <- order(data[1, ])
+data_ord <- data[ord, ord]
+plotcorr(data_ord , col=my_colors[data_ord*50+50] , mar=c(1,1,1,1)  )
