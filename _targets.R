@@ -47,6 +47,12 @@ list(
   tar_target(LENA_log_cleaned_long, clean_LENA_log_long(LENA_log_cleaned, ID_list)),
   tar_target(LENA_cleaned, clean_LENA(LENA_raw, LENA_log_cleaned_long, ID_list)), 
   tar_target(ADEX_cleaned, clean_ADEX(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list)),
+  tar_target(LENA_indices_cleaned_11_to_6, clean_LENA_indices(LENA_cleaned)[[1]]),
+  tar_target(LENA_indices_cleaned_0_to_6, clean_LENA_indices(LENA_cleaned)[[2]]),
+  tar_target(LENA_indices_cleaned_1_to_6, clean_LENA_indices(LENA_cleaned)[[3]]),
+  tar_target(ADEX_indices_cleaned_11_to_6, clean_ADEX_indices(ADEX_cleaned)[[1]]),
+  tar_target(ADEX_indices_cleaned_0_to_6, clean_ADEX_indices(ADEX_cleaned)[[2]]),
+  tar_target(ADEX_indices_cleaned_1_to_6, clean_ADEX_indices(ADEX_cleaned)[[3]]),
   
   # export cleaned data
   tar_target(export_ASQ_cleaned, export_xlsx(ASQ_cleaned, 
@@ -59,5 +65,18 @@ list(
   tar_target(export_LENA_cleaned, export_xlsx(LENA_cleaned, 
                                                   file.path(box_path, "cleaned/LENA_cleaned.xlsx"))),
   tar_target(export_ADEX_cleaned, export_xlsx(ADEX_cleaned, 
-                                              file.path(box_path, "cleaned/ADEX_cleaned.xlsx")))
+                                              file.path(box_path, "cleaned/ADEX_cleaned.xlsx"))),
+  
+  tar_target(export_LENA_indices_cleaned_11_to_6, export_xlsx(LENA_indices_cleaned_11_to_6, 
+                                              file.path(box_path, "cleaned/LENA_indices_cleaned_11_to_6.xlsx"))),
+  tar_target(export_LENA_indices_cleaned_0_to_6, export_xlsx(LENA_indices_cleaned_0_to_6, 
+                                              file.path(box_path, "cleaned/LENA_indices_cleaned_0_to_6.xlsx"))),
+  tar_target(export_LENA_indices_cleaned_1_to_6, export_xlsx(LENA_indices_cleaned_1_to_6, 
+                                              file.path(box_path, "cleaned/LENA_indices_cleaned_1_to_6.xlsx"))),
+  tar_target(export_ADEX_indices_cleaned_11_to_6, export_xlsx(ADEX_indices_cleaned_11_to_6, 
+                                                              file.path(box_path, "cleaned/ADEX_indices_cleaned_11_to_6.xlsx"))),
+  tar_target(export_ADEX_indices_cleaned_0_to_6, export_xlsx(ADEX_indices_cleaned_0_to_6, 
+                                                             file.path(box_path, "cleaned/ADEX_indices_cleaned_0_to_6.xlsx"))),
+  tar_target(export_ADEX_indices_cleaned_1_to_6, export_xlsx(ADEX_indices_cleaned_1_to_6, 
+                                                             file.path(box_path, "cleaned/ADEX_indices_cleaned_1_to_6.xlsx")))
 )

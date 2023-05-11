@@ -1,5 +1,4 @@
 # clean ADEX data
-
 clean_ADEX <- function(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list){
   
   # clean variable names
@@ -152,4 +151,43 @@ clean_ADEX <- function(ADEX_raw, LENA_cleaned, LENA_log_cleaned_long, ID_list){
            awc:peak_signal_level)
   
   return(ADEX_cleaned)
+}
+
+# create useful ADEX indices for different time cutoffs
+clean_ADEX_indices <- function(ADEX_cleaned){
+  
+  ADEX_indices_cleaned <- ADEX_cleaned |> 
+    mutate(timestamp_hour = lubridate::hour(timestamp),
+           .after = timestamp) |> 
+    mutate(timestamp_11_to_6 = ifelse(timestamp_hour %in% c(23, 0:6),
+                                      1, 0),
+           timestamp_0_to_6 = ifelse(timestamp_hour %in% c(0:6),
+                                     1, 0),
+           timestamp_1_to_6 = ifelse(timestamp_hour %in% c(1:6),
+                                     1, 0),
+           .after = timestamp_hour
+    )
+  
+  ADEX_indices_cleaned_11_to_6 <- ADEX_indices_cleaned |> 
+    group_by(survey_id, id, birthdate, date_of_interview, interview_type,
+             timestamp_11_to_6) |> 
+    summarise_at(vars(awc:peak_signal_level),
+                 mean, na.rm = T)
+  
+  ADEX_indices_cleaned_0_to_6 <- ADEX_indices_cleaned |> 
+    group_by(survey_id, id, birthdate, date_of_interview, interview_type,
+             timestamp_0_to_6) |> 
+    summarise_at(vars(awc:peak_signal_level),
+                 mean, na.rm = T)
+  
+  ADEX_indices_cleaned_1_to_6 <- ADEX_indices_cleaned |> 
+    group_by(survey_id, id, birthdate, date_of_interview, interview_type,
+             timestamp_1_to_6) |> 
+    summarise_at(vars(awc:peak_signal_level),
+                 mean, na.rm = T)
+  
+  return(list(ADEX_indices_cleaned_11_to_6,
+              ADEX_indices_cleaned_0_to_6,
+              ADEX_indices_cleaned_1_to_6))
+  
 }

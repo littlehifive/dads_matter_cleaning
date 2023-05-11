@@ -107,7 +107,6 @@ clean_LENA_log <- function(LENA_log_raw){
   return(LENA_log_cleaned)
 }
 
-# clean LENA data
 clean_LENA_log_long <- function(LENA_log_cleaned, ID_list){
   
   # merge with master id list to get the dates
@@ -139,6 +138,7 @@ clean_LENA_log_long <- function(LENA_log_cleaned, ID_list){
   return(LENA_log_cleaned_long)
 }
 
+# clean LENA data
 clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
   
   # timestamp from LENA log
@@ -304,4 +304,43 @@ clean_LENA <- function(LENA_raw, LENA_log_cleaned_long, ID_list){
            duration:ava_std_score)
     
   return(LENA_cleaned)
+}
+
+# create useful LENA indices for different time cutoffs
+clean_LENA_indices <- function(LENA_cleaned){
+  
+  LENA_indices_cleaned <- LENA_cleaned |> 
+    mutate(timestamp_hour = lubridate::hour(timestamp),
+           .after = timestamp) |> 
+    mutate(timestamp_11_to_6 = ifelse(timestamp_hour %in% c(23, 0:6),
+                                      1, 0),
+           timestamp_0_to_6 = ifelse(timestamp_hour %in% c(0:6),
+                                      1, 0),
+           timestamp_1_to_6 = ifelse(timestamp_hour %in% c(1:6),
+                                      1, 0),
+           .after = timestamp_hour
+           )
+  
+  LENA_indices_cleaned_11_to_6 <- LENA_indices_cleaned |> 
+    group_by(survey_id, id, birthdate, date_of_interview, interview_type,
+             timestamp_11_to_6) |> 
+    summarise_at(vars(meaningful:ava_std_score),
+                 mean, na.rm = T)
+  
+  LENA_indices_cleaned_0_to_6 <- LENA_indices_cleaned |> 
+    group_by(survey_id, id, birthdate, date_of_interview, interview_type,
+             timestamp_0_to_6) |> 
+    summarise_at(vars(meaningful:ava_std_score),
+                 mean, na.rm = T)
+  
+  LENA_indices_cleaned_1_to_6 <- LENA_indices_cleaned |> 
+    group_by(survey_id, id, birthdate, date_of_interview, interview_type,
+             timestamp_1_to_6) |> 
+    summarise_at(vars(meaningful:ava_std_score),
+                 mean, na.rm = T)
+  
+  return(list(LENA_indices_cleaned_11_to_6,
+              LENA_indices_cleaned_0_to_6,
+              LENA_indices_cleaned_1_to_6))
+  
 }
