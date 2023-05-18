@@ -307,4 +307,4 @@
 
 ## 05.18
 
-- I created a variable called total_recording_hours in both LENA and ADEX datasets as the total recording hours (number of 5-mins segements * 5 / 60).
+- I created a variable called total_recording_hours in both LENA and ADEX datasets as the total recording hours (number of 5-mins segments * 5 / 60).
