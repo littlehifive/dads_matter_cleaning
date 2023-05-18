@@ -416,8 +416,12 @@ library(ellipse)
 library(RColorBrewer)
 
 # Use of the mtcars data proposed by R
-data <- cor(temp |> select(contains("_day")) |> 
-              mutate_all(as.numeric),
+x <- temp |> select(contains("_day")) |> 
+  mutate_all(as.numeric)
+
+x <- x[, sort(colnames(x))]
+
+data <- cor(x,
             use = "complete.obs")
 
 # Build a Pannel of 100 colors with Rcolor Brewer
@@ -425,6 +429,37 @@ my_colors <- brewer.pal(5, "Spectral")
 my_colors <- colorRampPalette(my_colors)(100)
 
 # Order the correlation matrix
-ord <- order(data[1, ])
-data_ord <- data[ord, ord]
-plotcorr(data_ord , col=my_colors[data_ord*50+50] , mar=c(1,1,1,1)  )
+# ord <- order(data[1, ])
+# data_ord <- data[ord, ord]
+plotcorr(data , col=my_colors[data_ord*50+50] , mar=c(1,1,1,1)  )
+
+
+test <- ADEX_indices_cleaned_0_to_6 |> 
+  filter(timestamp_0_to_6 == 0)
+
+par(mfrow = c(2, 1))
+hist(test$fan_word_count, breaks = seq(0,400,10), main = "", xlab = "Female Word Count",
+     xlim = c(0,400))  
+hist(test$man_word_count, breaks = seq(0,400,10), main = "", xlab = "Male Word Count",
+     xlim = c(0,400))  
+
+
+hist(test$fan, breaks = seq(0,300,5), main = "", xlab = "Female Duration",
+     xlim = c(0,300))  
+hist(test$man, breaks = seq(0,300,5), main = "", xlab = "Male Duration",
+     xlim = c(0,300))  
+
+
+par(mfrow = c(3, 1))
+hist(test$awc, main = "", xlab = "Adult Word Counts")
+hist(test$turn_count, main = "", xlab = "Conversational Turns")
+hist(test$child_voc_count, main = "", xlab = "Count of Child Vocalizations")
+
+
+x <- ADEX_cleaned |>
+  select(survey_id, interview_type) |>
+  distinct() |> 
+  mutate(interview_type = as.numeric(interview_type)) |> 
+  group_by(survey_id) |> 
+  summarise(sum_interview_type = sum(interview_type, na.rm = T))
+
