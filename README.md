@@ -304,3 +304,7 @@
 - I created three sets of summary ADEX/LENA datasets, using three time periods: 11pm - 6am; 12am - 6am; 1am - 6am. All indices are averaged for segments in these periods (night time) as well as outside these periods (day time).
 
 - I made separate codebooks for each dataset that I cleaned.
+
+## 05.18
+
+- I created a variable called total_recording_hours in both LENA and ADEX datasets as the total recording hours (number of 5-mins segements * 5 / 60).

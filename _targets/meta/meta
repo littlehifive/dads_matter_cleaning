@@ -16,7 +16,7 @@ clean_column|function|a9df6fd9c02074f8|||||||||||||||
 clean_ID_list|function|3073adcd075844d0|||||||||||||||
 clean_LENA|function|d02a3a45795a95b6|||||||||||||||
 clean_LENA_dates|function|cdede304de65b4a3|||||||||||||||
-clean_LENA_indices|function|d5cbf16d02cce0e8|||||||||||||||
+clean_LENA_indices|function|0a0b3d21bf7dc995|||||||||||||||
 clean_LENA_log|function|17d46036d5778a2a|||||||||||||||
 clean_LENA_log_long|function|6b8f06534b6744c5|||||||||||||||
 export_ADEX_cleaned|stem|0e21ca0f0e92e1df|3744376d0660c6d2|ee37d2db9b58bd25|700366640||t19487.1700955495s|433c477a122f7d3d|2482047|rds|local|vector|||4.001||
@@ -26,9 +26,9 @@ export_ADEX_indices_cleaned_11_to_6|stem|7bd1db6efac4a18b|6c772d44a75cecfe|69c6b
 export_ASQ_cleaned|stem|b2b0c9273d8e74e4|8f206316f287320b|7cb893a3a588196b|2065537901||t19421.6599185149s|f30d6fdd4bf45937|234232|rds|local|vector|||0.116||
 export_csv|function|0c571556980a23c8|||||||||||||||
 export_LENA_cleaned|stem|af83560770dcdce2|67ebd82a9b6de142|ed206a378998650f|703316777||t19487.1700410593s|6a66d718bbf20aa2|1161546|rds|local|vector|||2.316||
-export_LENA_indices_cleaned_0_to_6|stem|009b7b904808518f|3f841787716fbd54|197fba95539f6505|133076435||t19487.8186437768s|3fa666aad3fb659f|199398|rds|local|vector|||0.107||
-export_LENA_indices_cleaned_1_to_6|stem|cfe6eb2baeee5090|b52392274da791b4|ba01d7b4ab48513f|243655712||t19487.818645929s|8989d940b29ff929|198069|rds|local|vector|||0.032||
-export_LENA_indices_cleaned_11_to_6|stem|b67a6a29296208f9|7a493dba760603a9|a73fa0fc60764cc9|234051755||t19487.818644832s|aaf9b7e5ae346a2d|201204|rds|local|vector|||0.033||
+export_LENA_indices_cleaned_0_to_6|stem|60849ce800da2b78|3f841787716fbd54|e8a23c8b88aa0ec0|133076435||t19495.7634209224s|2c19c07e904b72a2|200879|rds|local|vector|||0.107||
+export_LENA_indices_cleaned_1_to_6|stem|ce7cd57f0e0428d0|b52392274da791b4|bdcda71c3c996283|243655712||t19495.7634232165s|2d21fe869d529046|199451|rds|local|vector|||0.038||
+export_LENA_indices_cleaned_11_to_6|stem|a8f6c22ad73431be|7a493dba760603a9|3ef547349c11e085|234051755||t19495.7634221053s|986b299d618a8260|202744|rds|local|vector|||0.035||
 export_LENA_log_cleaned|stem|4346eeaec645b6d1|869e72170a5bde83|bc54847f42cb685f|111485514||t19479.0483967375s|c9292b309df980db|179790|rds|local|vector|||0.114||
 export_LENA_log_long_cleaned|stem|bf8671a172543873|e3fd00c2345bb2f5|16b6a53ec6bc21ea|579837143||t19479.0483993214s|d3843744a13e0a46|240048|rds|local|vector|||0.141||
 export_xlsx|function|6facc8ed78945f75|||||||||||||||
@@ -36,9 +36,9 @@ get_nchar|function|4d3b6a1e0a2e5f84|||||||||||||||
 ID_list|stem|6475f2777ce486e9|92ff73afb15bf044|be49306f23312ad3|233567358||t19465.9220369178s|d69cf7b329273978|6956|rds|local|vector|||0.771||
 identify_NA|function|2c0cfeaf25170681|||||||||||||||
 LENA_cleaned|stem|e1bdc8b2e7c2e4d5|c7e8fe53d3f6178e|a8fe68d9cabadcc4|1473057832||t19487.1699392249s|ea887301e5626970|540004|rds|local|vector|||72.351||
-LENA_indices_cleaned_0_to_6|stem|ce6c05c0594e7217|ea9d42198f53ee6c|5e9a73d147c956a0|-1455044895||t19487.8186314603s|a20a8b53de3c5fa3|25306|rds|local|vector|||0.443||
-LENA_indices_cleaned_1_to_6|stem|c24bb82f0eeb7c74|feb4669acefdae0a|5e9a73d147c956a0|-1581172880||t19487.8186418812s|190f6465fab1acc5|24251|rds|local|vector|||0.459||
-LENA_indices_cleaned_11_to_6|stem|fd568717e7900fee|9ca0def6e6a4636f|5e9a73d147c956a0|1365894840||t19487.8186364845s|2ab59ab14d01de5d|26205|rds|local|vector|||0.424||
+LENA_indices_cleaned_0_to_6|stem|2d8a8bde27b03a00|ea9d42198f53ee6c|51201fff7d6abca6|-1455044895||t19495.763407519s|b5dd706110672ac4|26219|rds|local|vector|||0.495||
+LENA_indices_cleaned_1_to_6|stem|97af3dfb1ab4deb9|feb4669acefdae0a|51201fff7d6abca6|-1581172880||t19495.7634188059s|d8454776fb65a82c|25087|rds|local|vector|||0.478||
+LENA_indices_cleaned_11_to_6|stem|f60a1c297780c368|9ca0def6e6a4636f|51201fff7d6abca6|1365894840||t19495.7634131219s|a35e015a971e56bb|27163|rds|local|vector|||0.476||
 LENA_log_cleaned|stem|a6ec4d4c3a99c4f9|048245631034cf06|5f247eadb533e8d6|1806204260||t19479.0483940441s|618f3bc8a2793046|10624|rds|local|vector|||0.112||
 LENA_log_cleaned_long|stem|71e131c97c058cbd|994c1bcd47a30321|6737adfc2857249b|-918139127||t19495.616874672s|df90bfeef5727738|19681|rds|local|vector|||0.055||
 LENA_log_raw|stem|4b72156e81f1fc1e|4b3ddcf8245d29e9|a758fa586fcb7ff5|178109485||t19421.6599109201s|3cfcce7991195b9e|12955|rds|local|vector|||0.023||
