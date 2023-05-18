@@ -168,23 +168,39 @@ clean_ADEX_indices <- function(ADEX_cleaned){
            .after = timestamp_hour
     )
   
+
+  temp1 <- ADEX_indices_cleaned |> 
+    group_by(survey_id, date_of_interview, timestamp_11_to_6) |> 
+    summarise(total_recording_hours = n() * 5 / 60)
+  
   ADEX_indices_cleaned_11_to_6 <- ADEX_indices_cleaned |> 
     group_by(survey_id, id, birthdate, date_of_interview, interview_type,
              timestamp_11_to_6) |> 
     summarise_at(vars(awc:peak_signal_level),
-                 mean, na.rm = T)
+                 mean, na.rm = T) |> 
+    left_join(temp1, by = c("survey_id", "date_of_interview", "timestamp_11_to_6"))
+  
+  temp2 <- ADEX_indices_cleaned |> 
+    group_by(survey_id, date_of_interview, timestamp_0_to_6) |> 
+    summarise(total_recording_hours = n() * 5 / 60)
   
   ADEX_indices_cleaned_0_to_6 <- ADEX_indices_cleaned |> 
     group_by(survey_id, id, birthdate, date_of_interview, interview_type,
              timestamp_0_to_6) |> 
     summarise_at(vars(awc:peak_signal_level),
-                 mean, na.rm = T)
+                 mean, na.rm = T) |> 
+    left_join(temp2, by = c("survey_id", "date_of_interview", "timestamp_0_to_6"))
+
+  temp3 <- ADEX_indices_cleaned |> 
+    group_by(survey_id, date_of_interview, timestamp_1_to_6) |> 
+    summarise(total_recording_hours = n() * 5 / 60)
   
   ADEX_indices_cleaned_1_to_6 <- ADEX_indices_cleaned |> 
     group_by(survey_id, id, birthdate, date_of_interview, interview_type,
              timestamp_1_to_6) |> 
     summarise_at(vars(awc:peak_signal_level),
-                 mean, na.rm = T)
+                 mean, na.rm = T) |> 
+    left_join(temp3, by = c("survey_id", "date_of_interview", "timestamp_1_to_6"))
   
   return(list(ADEX_indices_cleaned_11_to_6,
               ADEX_indices_cleaned_0_to_6,

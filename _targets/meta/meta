@@ -1,8 +1,8 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 ADEX_cleaned|stem|6ea4d0c6f2078f35|2ef23f497b886af6|85f544e5a90c10bc|1685452380||t19487.1700094413s|50e5137acc76a6ae|1601816|rds|local|vector|||5.622||
-ADEX_indices_cleaned_0_to_6|stem|adfe629acd8809ce|72870e9d38db5e04|31133764a91e7c1e|786384111||t19487.8372278429s|a869cf1ed1e23b4c|59819|rds|local|vector|||0.202||
-ADEX_indices_cleaned_1_to_6|stem|e00b744fecb074f2|5c82d33b0ca29721|31133764a91e7c1e|-2083098181||t19487.8372327266s|4df6c4c056f1a214|56463|rds|local|vector|||0.192||
-ADEX_indices_cleaned_11_to_6|stem|043b936ae1620d2e|df8b6d8a39f661b6|31133764a91e7c1e|146479701||t19487.8372304193s|bb941af853b47da1|62366|rds|local|vector|||0.214||
+ADEX_indices_cleaned_0_to_6|stem|0ab3055522055257|72870e9d38db5e04|343b1b1a6558c8d3|786384111||t19495.7604782761s|bcbdc5c9b1876b71|60705|rds|local|vector|||0.259||
+ADEX_indices_cleaned_1_to_6|stem|3c4bbbc1c0380c04|5c82d33b0ca29721|343b1b1a6558c8d3|-2083098181||t19495.7604839566s|c4fe4dd0ce26906d|57293|rds|local|vector|||0.229||
+ADEX_indices_cleaned_11_to_6|stem|cf801563ea1ff3f3|df8b6d8a39f661b6|343b1b1a6558c8d3|146479701||t19495.7604812139s|c3481fb28e29cdbf|63299|rds|local|vector|||0.245||
 ADEX_raw|stem|849e2706195bd40b|f089dc8921439db2|a758fa586fcb7ff5|-1833723031||t19466.0955063877s|d1dbd431591346d4|1763508|rds|local|vector|||0.753||
 ASQ_cleaned|stem|23084f8fd382a9a1|e4da6086afa2919f|943e09e37a6883f0|1425940426||t19421.6599163192s|6c62bc4930f6247a|37152|rds|local|vector|||0.317||
 ASQ_norm|stem|d5e9613bd7b96867|c94ff5c1eb2d3e65|120dde146dbdbdf0|624182101||t19421.6599118354s|01d717670daa253d|1008|rds|local|vector|||0.075||
@@ -10,7 +10,7 @@ ASQ_raw|stem|5a4a62f67757301e|94ac684cd39c2272|120dde146dbdbdf0|-2091189797||t19
 ASQ_raw_file_path|stem|2358f0a912c6341a|57757747bc984d54|106b727ca38470bb|-24967218|/Users/michaelfive/Library/CloudStorage/Box-Box/Dads Matter Project/Data cleaning/raw/ASQ data_raw.xlsx|t19394.0838596567s|880092e65a3f804d|380879|file|local|vector|||0.563||
 box_path|object|5436679fed15322e|||||||||||||||
 clean_ADEX|function|a06ada9a16b85d30|||||||||||||||
-clean_ADEX_indices|function|90711d7a21ed5347|||||||||||||||
+clean_ADEX_indices|function|3333232f80948813|||||||||||||||
 clean_ASQ|function|87f9513177d69a1e|||||||||||||||
 clean_column|function|a9df6fd9c02074f8|||||||||||||||
 clean_ID_list|function|3073adcd075844d0|||||||||||||||
@@ -20,9 +20,9 @@ clean_LENA_indices|function|d5cbf16d02cce0e8|||||||||||||||
 clean_LENA_log|function|17d46036d5778a2a|||||||||||||||
 clean_LENA_log_long|function|6b8f06534b6744c5|||||||||||||||
 export_ADEX_cleaned|stem|0e21ca0f0e92e1df|3744376d0660c6d2|ee37d2db9b58bd25|700366640||t19487.1700955495s|433c477a122f7d3d|2482047|rds|local|vector|||4.001||
-export_ADEX_indices_cleaned_0_to_6|stem|414815478fbdf3a3|76ab58acb1ab238f|5e0aab3f3f12d748|1761218185||t19487.8372349433s|9e4182754ff64afa|224978|rds|local|vector|||0.121||
-export_ADEX_indices_cleaned_1_to_6|stem|5c19b534a52a3eff|1170ae269dbfc4f4|36e4048e3c6aa1da|768124930||t19487.8372375093s|3d43fd63b5b1617c|222983|rds|local|vector|||0.048||
-export_ADEX_indices_cleaned_11_to_6|stem|4c4ffde4fa90ece8|6c772d44a75cecfe|fa5d7ddf5165a92d|-1284626591||t19487.8372362632s|aed5dfab3d1a856e|229722|rds|local|vector|||0.053||
+export_ADEX_indices_cleaned_0_to_6|stem|3e9c4e4944ae95d4|76ab58acb1ab238f|ed687d11c9b0af40|1761218185||t19495.7604862799s|6f13900b58d7e2f3|226461|rds|local|vector|||0.135||
+export_ADEX_indices_cleaned_1_to_6|stem|bf8ab01fb4262533|1170ae269dbfc4f4|030573c583399133|768124930||t19495.7604893768s|531a876617e69d3d|224049|rds|local|vector|||0.085||
+export_ADEX_indices_cleaned_11_to_6|stem|7bd1db6efac4a18b|6c772d44a75cecfe|69c6b5a82b6ad981|-1284626591||t19495.7604876489s|e1fd04e343b6cdb8|231279|rds|local|vector|||0.055||
 export_ASQ_cleaned|stem|b2b0c9273d8e74e4|8f206316f287320b|7cb893a3a588196b|2065537901||t19421.6599185149s|f30d6fdd4bf45937|234232|rds|local|vector|||0.116||
 export_csv|function|0c571556980a23c8|||||||||||||||
 export_LENA_cleaned|stem|af83560770dcdce2|67ebd82a9b6de142|ed206a378998650f|703316777||t19487.1700410593s|6a66d718bbf20aa2|1161546|rds|local|vector|||2.316||
@@ -40,7 +40,7 @@ LENA_indices_cleaned_0_to_6|stem|ce6c05c0594e7217|ea9d42198f53ee6c|5e9a73d147c95
 LENA_indices_cleaned_1_to_6|stem|c24bb82f0eeb7c74|feb4669acefdae0a|5e9a73d147c956a0|-1581172880||t19487.8186418812s|190f6465fab1acc5|24251|rds|local|vector|||0.459||
 LENA_indices_cleaned_11_to_6|stem|fd568717e7900fee|9ca0def6e6a4636f|5e9a73d147c956a0|1365894840||t19487.8186364845s|2ab59ab14d01de5d|26205|rds|local|vector|||0.424||
 LENA_log_cleaned|stem|a6ec4d4c3a99c4f9|048245631034cf06|5f247eadb533e8d6|1806204260||t19479.0483940441s|618f3bc8a2793046|10624|rds|local|vector|||0.112||
-LENA_log_cleaned_long|stem|71e131c97c058cbd|994c1bcd47a30321|6737adfc2857249b|-918139127||t19479.0483947188s|df90bfeef5727738|19681|rds|local|vector|||0.042||
+LENA_log_cleaned_long|stem|71e131c97c058cbd|994c1bcd47a30321|6737adfc2857249b|-918139127||t19495.616874672s|df90bfeef5727738|19681|rds|local|vector|||0.055||
 LENA_log_raw|stem|4b72156e81f1fc1e|4b3ddcf8245d29e9|a758fa586fcb7ff5|178109485||t19421.6599109201s|3cfcce7991195b9e|12955|rds|local|vector|||0.023||
 LENA_raw|stem|eebcd0dd293427b6|a35b02ce2727674b|a758fa586fcb7ff5|-912138566||t19421.6599101053s|672b2cbb8aefd736|545934|rds|local|vector|||0.124|1m22mOne or more parsing issues, call problems on your data frame for details,e.g.  dat  vroom...  problemsdat|
 load_xlsx|function|4ed8966ea1835a6c|||||||||||||||
